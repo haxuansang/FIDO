@@ -4,11 +4,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.jake.fido.Objects.DoctorObjects;
 import com.example.jake.fido.R;
+import com.example.jake.fido.View.Adapter.AdapterDoctors;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,8 +33,11 @@ public class DoctorFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private View view;
     private OnFragmentInteractionListener mListener;
+    private RecyclerView rvDoctors;
+    AdapterDoctors adapterDoctors;
+    ArrayList<DoctorObjects> listFakeDoctors = new ArrayList<>();
 
     public DoctorFragment() {
         // Required empty public constructor
@@ -38,16 +47,15 @@ public class DoctorFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+
      * @return A new instance of fragment DoctorFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DoctorFragment newInstance(String param1, String param2) {
+    public static DoctorFragment newInstance() {
         DoctorFragment fragment = new DoctorFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+       /* args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);*/
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,7 +73,31 @@ public class DoctorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doctor, container, false);
+        view = inflater.inflate(R.layout.fragment_doctor, container, false);
+        rvDoctors = (RecyclerView) view.findViewById(R.id.rv_doctors);
+        fakeData();
+        adapterDoctors = new AdapterDoctors(getActivity(),getContext(),listFakeDoctors);
+        rvDoctors.setHasFixedSize(true);
+        rvDoctors.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvDoctors.setAdapter(adapterDoctors);
+        return view;
+    }
+
+    private void fakeData() {
+       listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ","Tâm thần","Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn","Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
+               "https://cdn.tuoitre.vn/thumb_w/640/2018/2/10/bac-si-tran-huynh-151824259749249048360.jpg",(int)4.5));
+        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ","Tâm thần","Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn","Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
+                "https://media.doisongvietnam.vn/u/rootimage/editor/2018/02/27/13/21/s21519690899_1206.jpg",(int)4.5));
+        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ","Tâm thần","Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn","Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
+                "https://cdn.tuoitre.vn/thumb_w/640/2018/2/10/bac-si-tran-huynh-151824259749249048360.jpg",(int)4.5));
+        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ","Tâm thần","Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn","Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
+                "https://media.doisongvietnam.vn/u/rootimage/editor/2018/02/27/13/21/s21519690899_1206.jpg",(int)4.5));
+        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ","Tâm thần","Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn","Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
+                "https://cdn.tuoitre.vn/thumb_w/640/2018/2/10/bac-si-tran-huynh-151824259749249048360.jpg",(int)4.5));
+        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ","Tâm thần","Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn","Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
+                "https://media.doisongvietnam.vn/u/rootimage/editor/2018/02/27/13/21/s21519690899_1206.jpg",(int)4.5));
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,12 +110,12 @@ public class DoctorFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+      /*  if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
+        }*/
     }
 
     @Override
