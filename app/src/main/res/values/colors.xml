@@ -4,8 +4,9 @@
     <color name="colorPrimaryDark">#00574b</color>
     <color name="colorAccent">#D81B60</color>
     <color name="primary_material_light_1">#008577</color>
-
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="light_green">#00AA00</color>
+    <color name="tabcolor">#a2a2ef</color>
+    <color name="tabselect">#f40404</color>
 </resources>

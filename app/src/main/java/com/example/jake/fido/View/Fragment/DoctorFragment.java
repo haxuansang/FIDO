@@ -1,17 +1,26 @@
 package com.example.jake.fido.View.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.example.jake.fido.DetailDoctorActivity;
 import com.example.jake.fido.Objects.DoctorObjects;
 import com.example.jake.fido.R;
+import com.example.jake.fido.Utils.InfiniteScrollListener;
+import com.example.jake.fido.Utils.ItemClickListener;
 import com.example.jake.fido.View.Adapter.AdapterDoctors;
 
 import java.util.ArrayList;
@@ -24,7 +33,7 @@ import java.util.ArrayList;
  * Use the {@link DoctorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DoctorFragment extends Fragment {
+public class DoctorFragment extends Fragment implements ItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -38,7 +47,9 @@ public class DoctorFragment extends Fragment {
     private RecyclerView rvDoctors;
     AdapterDoctors adapterDoctors;
     ArrayList<DoctorObjects> listFakeDoctors = new ArrayList<>();
-
+    private GridLayoutManager gridLayoutManager;
+    FloatingActionButton floatingActionButton;
+    private RelativeLayout rl_loadingmore;
     public DoctorFragment() {
         // Required empty public constructor
     }
@@ -75,11 +86,26 @@ public class DoctorFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_doctor, container, false);
         rvDoctors = (RecyclerView) view.findViewById(R.id.rv_doctors);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
+        rl_loadingmore = (RelativeLayout)view.findViewById(R.id.rl_loading_more);
         fakeData();
         adapterDoctors = new AdapterDoctors(getActivity(),getContext(),listFakeDoctors);
+        adapterDoctors.registerItemClickListener(this);
         rvDoctors.setHasFixedSize(true);
-        rvDoctors.setLayoutManager(new LinearLayoutManager(getContext()));
+        gridLayoutManager = new GridLayoutManager(getContext(), 1);
+
+        rvDoctors.setLayoutManager(gridLayoutManager);
         rvDoctors.setAdapter(adapterDoctors);
+        rvDoctors.addOnScrollListener(new InfiniteScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                rl_loadingmore.setVisibility(View.VISIBLE);
+                fakeData();
+                adapterDoctors.notifyDataSetChanged();
+            }
+        });
+
+
         return view;
     }
 
@@ -96,7 +122,7 @@ public class DoctorFragment extends Fragment {
                 "https://cdn.tuoitre.vn/thumb_w/640/2018/2/10/bac-si-tran-huynh-151824259749249048360.jpg",(int)4.5));
         listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ","Tâm thần","Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn","Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
                 "https://media.doisongvietnam.vn/u/rootimage/editor/2018/02/27/13/21/s21519690899_1206.jpg",(int)4.5));
-
+        rl_loadingmore.setVisibility(View.GONE);
 
     }
 
@@ -122,6 +148,14 @@ public class DoctorFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onItemClick(Object object) {
+        if (object!=null && object instanceof DoctorObjects) {
+            Intent intent = new Intent(getActivity(), DetailDoctorActivity.class);
+            getActivity().startActivity(intent);
+        }
     }
 
     /**

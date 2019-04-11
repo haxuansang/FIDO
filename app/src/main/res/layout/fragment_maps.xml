@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.Fragment.MapsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:id="@+id/imv_gps"
+        android:layout_width="180dp"
+        android:layout_height="250dp"
+        android:src="@drawable/gps"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        />
+    <Button
+        android:id="@+id/btn_getGps"
+        android:layout_below="@id/imv_gps"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="Lấy vị trí của bạn"
+        android:textAllCaps="false"
+        android:background="@drawable/shape_button"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        />
+    <include layout="@layout/loading_more"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="30dp"
+        android:visibility="gone"/>
 
-</FrameLayout>
+
+</RelativeLayout>
