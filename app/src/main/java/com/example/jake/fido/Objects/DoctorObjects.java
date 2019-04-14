@@ -1,6 +1,9 @@
 package com.example.jake.fido.Objects;
 
-public class DoctorObjects {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DoctorObjects implements Parcelable {
     public String name,major,description,address,imageLink;
     public double evaluation;
 
@@ -69,5 +72,42 @@ public class DoctorObjects {
 
     public void setEvaluation(double evaluation) {
         this.evaluation = evaluation;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(major);
+        parcel.writeString(description);
+        parcel.writeString(address);
+        parcel.writeString(imageLink);
+        parcel.writeDouble(evaluation);
+    }
+    public static final Parcelable.Creator<DoctorObjects> CREATOR
+            = new Parcelable.Creator<DoctorObjects>() {
+        public DoctorObjects createFromParcel(Parcel in) {
+            return new DoctorObjects(in);
+        }
+
+        @Override
+        public DoctorObjects[] newArray(int i) {
+            return new DoctorObjects[i];
+        }
+
+
+    };
+
+    private DoctorObjects(Parcel in) {
+        name = in.readString();
+        major = in.readString();
+        description = in.readString();
+        address = in.readString();
+        imageLink = in.readString();
+        evaluation = in.readDouble();
     }
 }

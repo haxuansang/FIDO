@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_inside_cardiew"
+    android:layout_marginLeft="19dp">
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_dot"
+        android:layout_marginTop="4dp"
+      />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trưởng khoa tâm thần bệnh viện Ung Bướu Đà Nẵng"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size_small_information"
+        android:layout_marginLeft="16dp"/>
+</LinearLayout>

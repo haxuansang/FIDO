@@ -1,14 +1,381 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".View.Fragment.InformationDoctorFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_outside_cardview"
+            android:layout_marginRight="@dimen/margin_outside_cardview"
+            android:layout_marginBottom="@dimen/margin_outside_cardview"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="10dp"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inside_cardiew"
+                android:layout_marginBottom="@dimen/margin_inside_cardiew"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="@dimen/width_item_information"
+                    android:layout_height="@dimen/heigh_item_information"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_phone"
+                    android:tint="@color/colorPrimary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:text="0969083792"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_text_informaton_doctor" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_outside_cardview"
+            android:layout_marginRight="@dimen/margin_outside_cardview"
+            android:layout_marginBottom="@dimen/margin_outside_cardview"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="10dp"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inside_cardiew"
+                android:layout_marginBottom="@dimen/margin_inside_cardiew"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="@dimen/width_item_information"
+                    android:layout_height="@dimen/heigh_item_information"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_location"
+                    android:tint="@color/colorPrimary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:text="14, Trần Phú, Đà Nẵng"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_text_informaton_doctor" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_outside_cardview"
+            android:layout_marginRight="@dimen/margin_outside_cardview"
+            android:layout_marginBottom="@dimen/margin_outside_cardview"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="10dp"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inside_cardiew"
+                android:layout_marginBottom="@dimen/margin_inside_cardiew"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="@dimen/width_item_information"
+                    android:layout_height="@dimen/heigh_item_information"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_mail"
+                    android:tint="@color/colorPrimary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:text="haxuansang123@gmail.com"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_text_informaton_doctor" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_outside_cardview"
+            android:layout_marginRight="@dimen/margin_outside_cardview"
+            android:layout_marginBottom="@dimen/margin_outside_cardview"
+            android:padding="10dp"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_inside_cardiew"
+                    android:layout_marginBottom="@dimen/margin_inside_cardiew"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:layout_width="@dimen/width_item_information"
+                        android:layout_height="@dimen/heigh_item_information"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_information"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
+                        android:text="Giới Thiệu"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/size_text_informaton_doctor" />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/layout_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_left_element_doctor"
+                    android:layout_marginRight="@dimen/margin_outside_cardview"
+                    android:layout_marginBottom="@dimen/margin_information"></FrameLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_outside_cardview"
+            android:layout_marginRight="@dimen/margin_outside_cardview"
+            android:layout_marginBottom="@dimen/margin_outside_cardview"
+            android:padding="10dp"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:id="@+id/ll_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_inside_cardiew"
+                    android:layout_marginBottom="@dimen/margin_inside_cardiew"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:layout_width="@dimen/width_item_information"
+                        android:layout_height="@dimen/heigh_item_information"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_chucvu"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
+                        android:text="Chức vụ"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/size_text_informaton_doctor" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/layout_regency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_left_dot"
+                    android:layout_marginRight="@dimen/margin_outside_cardview"
+                    android:layout_marginBottom="@dimen/margin_information">
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_outside_cardview"
+            android:layout_marginRight="@dimen/margin_outside_cardview"
+            android:layout_marginBottom="@dimen/margin_outside_cardview"
+            android:padding="10dp"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_inside_cardiew"
+                    android:layout_marginBottom="@dimen/margin_inside_cardiew"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:layout_width="@dimen/width_item_information"
+                        android:layout_height="@dimen/heigh_item_information"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_temple"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
+                        android:text="Nơi Công Tác"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/size_text_informaton_doctor" />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/layout_workplace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_left_element_doctor"
+                    android:layout_marginRight="@dimen/margin_outside_cardview"
+                    android:layout_marginBottom="@dimen/margin_information"></FrameLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_outside_cardview"
+            android:layout_marginRight="@dimen/margin_outside_cardview"
+            android:layout_marginBottom="@dimen/margin_outside_cardview"
+            android:padding="10dp"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_inside_cardiew"
+                    android:layout_marginBottom="@dimen/margin_inside_cardiew"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:layout_width="@dimen/width_item_information"
+                        android:layout_height="@dimen/heigh_item_information"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_profits"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
+                        android:text="Kinh Nghiệm"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/size_text_informaton_doctor" />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/layout_expierence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_left_element_doctor"
+                    android:layout_marginRight="@dimen/margin_outside_cardview"
+                    android:layout_marginBottom="@dimen/margin_information"></FrameLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_outside_cardview"
+            android:layout_marginRight="@dimen/margin_outside_cardview"
+            android:layout_marginBottom="@dimen/margin_outside_cardview"
+            android:padding="10dp"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_inside_cardiew"
+                    android:layout_marginBottom="@dimen/margin_inside_cardiew"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:layout_width="@dimen/width_item_information"
+                        android:layout_height="@dimen/heigh_item_information"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_reward"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
+                        android:text="Giải Thưởng Và Ghi Nhận"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/size_text_informaton_doctor" />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/layout_reward"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_left_element_doctor"
+                    android:layout_marginRight="@dimen/margin_outside_cardview"
+                    android:layout_marginBottom="@dimen/margin_information"></FrameLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -22,11 +22,13 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/circleview_doctor"
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:src="@drawable/doctorfakee" />
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/doctorfakee"
+                    android:transitionName="transitionImg"
+                    />
 
                 <TextView
                     android:id="@+id/tv_namedoctor"
@@ -39,7 +41,7 @@
                     android:layout_marginRight="30dp"
                     android:text="Bs. Hà Xuân Sáng"
                     android:textColor="@color/white"
-                    android:textSize="28sp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/tv_major_doctor"
@@ -50,8 +52,20 @@
                     android:layout_marginTop="1dp"
                     android:text="Chuyên khoa: Khoa tâm thần"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="italic" />
+                <RatingBar
+                    android:id="@+id/rating_doctor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_major_doctor"
+                    android:layout_centerHorizontal="true"
+                    android:rating="4.5"
+                    android:numStars="5"
+                    android:layout_marginLeft="8dp"
+                    style="@style/Widget.AppCompat.RatingBar.Indicator"
+                    android:progressTint="#FFD700"
+                    android:layout_marginTop="2dp"/>
 
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>

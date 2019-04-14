@@ -26,6 +26,7 @@
         android:src="@drawable/doctorfakee"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="5dp"
+        android:transitionName="transitionImg"
         />
     <ImageView
         android:layout_width="24dp"
@@ -81,9 +82,7 @@
         android:numStars="5"
         android:layout_marginLeft="8dp"
         style="@style/Widget.AppCompat.RatingBar.Indicator"
-        android:progressTint="#FFD700"
-
-        />
+        android:progressTint="#FFD700"/>
     <TextView
         android:id="@+id/tv_addressofdoctor"
         android:layout_width="match_parent"

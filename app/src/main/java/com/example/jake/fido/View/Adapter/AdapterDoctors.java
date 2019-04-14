@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.jake.fido.Objects.DoctorObjects;
 import com.example.jake.fido.R;
 import com.example.jake.fido.Utils.ItemClickListener;
+import com.example.jake.fido.Utils.TransitionItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -27,7 +28,8 @@ public class AdapterDoctors extends RecyclerView.Adapter<AdapterDoctors.ViewHold
     ArrayList<DoctorObjects> listDoctors;
     Activity mActivity;
     Context mContext;
-    ItemClickListener itemClickListener;
+    TransitionItemClickListener itemClickListener;
+
     public AdapterDoctors(Activity mActivity, Context mContext, ArrayList<DoctorObjects> listDoctors)
     {
         this.mActivity = mActivity;
@@ -35,7 +37,7 @@ public class AdapterDoctors extends RecyclerView.Adapter<AdapterDoctors.ViewHold
         this.listDoctors=listDoctors;
 
     }
-    public void registerItemClickListener(ItemClickListener itemClickListener) {
+    public void registerItemClickListener(TransitionItemClickListener itemClickListener) {
         this.itemClickListener=itemClickListener;
     }
 
@@ -47,7 +49,7 @@ public class AdapterDoctors extends RecyclerView.Adapter<AdapterDoctors.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderDoctors holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolderDoctors holder, final int position) {
         final DoctorObjects doctorObjects = listDoctors.get(position);
         Picasso.with(mContext).load(doctorObjects.getImageLink()).fit().into(holder.doctorImage);
         holder.tvDoctorName.setText(doctorObjects.getName());
@@ -58,7 +60,7 @@ public class AdapterDoctors extends RecyclerView.Adapter<AdapterDoctors.ViewHold
         holder.rlDoctorElement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClickListener.onItemClick(doctorObjects);
+                itemClickListener.onItemClick(position,doctorObjects,holder.doctorImage);
             }
         });
 
