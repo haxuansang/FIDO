@@ -11,6 +11,8 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
 import com.example.jake.fido.Objects.DoctorObjects;
 import com.example.jake.fido.R;
 import com.example.jake.fido.Utils.ItemClickListener;
@@ -51,7 +53,7 @@ public class AdapterDoctors extends RecyclerView.Adapter<AdapterDoctors.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderDoctors holder, final int position) {
         final DoctorObjects doctorObjects = listDoctors.get(position);
-        Picasso.with(mContext).load(doctorObjects.getImageLink()).fit().into(holder.doctorImage);
+        Glide.with(mContext).load(doctorObjects.getImageLink()).asBitmap().format(DecodeFormat.PREFER_ARGB_8888).into(holder.doctorImage);
         holder.tvDoctorName.setText(doctorObjects.getName());
         holder.tvMajor.setText("Chuyên khoa:"+doctorObjects.getMajor());
         holder.tvAddress.setText(doctorObjects.getAddress());

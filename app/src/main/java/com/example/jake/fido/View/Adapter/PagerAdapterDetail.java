@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.jake.fido.Utils.TabLayoutListener;
 import com.example.jake.fido.View.Fragment.InformationDoctorFragment;
 import com.example.jake.fido.View.Fragment.ReviewDoctorFragment;
 
@@ -15,6 +16,7 @@ public class PagerAdapterDetail extends FragmentStatePagerAdapter {
 
     public PagerAdapterDetail(FragmentManager fm) {
         super(fm);
+
     }
 
     @Override

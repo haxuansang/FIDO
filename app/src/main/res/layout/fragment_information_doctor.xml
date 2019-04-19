@@ -270,13 +270,14 @@
 
                 </LinearLayout>
 
-                <FrameLayout
+                <LinearLayout
+                    android:orientation="vertical"
                     android:id="@+id/layout_workplace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_left_element_doctor"
+                    android:layout_marginLeft="@dimen/margin_left_dot"
                     android:layout_marginRight="@dimen/margin_outside_cardview"
-                    android:layout_marginBottom="@dimen/margin_information"></FrameLayout>
+                    android:layout_marginBottom="@dimen/margin_information"></LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -319,13 +320,14 @@
 
                 </LinearLayout>
 
-                <FrameLayout
+                <LinearLayout
+                    android:orientation="vertical"
                     android:id="@+id/layout_expierence"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_left_element_doctor"
+                    android:layout_marginLeft="@dimen/margin_left_dot"
                     android:layout_marginRight="@dimen/margin_outside_cardview"
-                    android:layout_marginBottom="@dimen/margin_information"></FrameLayout>
+                    android:layout_marginBottom="@dimen/margin_information"></LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -368,13 +370,14 @@
 
                 </LinearLayout>
 
-                <FrameLayout
+                <LinearLayout
                     android:id="@+id/layout_reward"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_left_element_doctor"
+                    android:layout_marginLeft="@dimen/margin_left_dot"
                     android:layout_marginRight="@dimen/margin_outside_cardview"
-                    android:layout_marginBottom="@dimen/margin_information"></FrameLayout>
+                    android:layout_marginBottom="@dimen/margin_information"
+                    android:orientation="vertical"></LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>

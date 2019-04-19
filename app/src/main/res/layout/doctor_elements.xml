@@ -61,16 +61,17 @@
         android:layout_marginLeft="10dp"
         android:textSize="15sp"
         />
+
     <TextView
-        android:layout_toRightOf="@id/circleview_doctor"
-        android:layout_below="@id/rating_doctor"
         android:id="@+id/tv_evaluate_doctor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/rating_doctor"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/circleview_doctor"
         android:text="Đánh giá 4.5 sao dựa trên 1221 lượt bình chọn"
         android:textSize="10sp"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="10dp"
         android:textStyle="italic"/>
     <RatingBar
         android:id="@+id/rating_doctor"

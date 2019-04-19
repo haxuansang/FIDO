@@ -112,7 +112,6 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         fakeData();
         adapterDoctors = new AdapterDoctors(getActivity(), getContext(), listFakeDoctors);
         adapterDoctors.registerItemClickListener(this);
-        rvDoctors.setHasFixedSize(true);
         gridLayoutManager = new GridLayoutManager(getContext(), 1);
         rvDoctors.setLayoutManager(gridLayoutManager);
         rvDoctors.setAdapter(adapterDoctors);

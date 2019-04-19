@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginRight="10dp">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imv_user_review"
+            android:layout_width="@dimen/size_user_review"
+            android:layout_height="@dimen/size_user_review"
+            android:src="@drawable/user_fake"/>
+        <TextView
+            android:id="@+id/tv_name_user_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imv_user_review"
+            android:text="Hà Xuân Sáng"
+            android:textSize="17sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorPrimary"
+            />
+        <RatingBar
+            android:id="@+id/rating_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imv_user_review"
+            android:rating="4.5"
+            android:numStars="5"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:progressTint="#FFD700"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/rating_review"
+            android:layout_below="@id/tv_name_user_review"
+            android:layout_marginTop="28dp"
+            android:text="20/12/2018"
+            android:layout_marginLeft="20dp"
+            android:textSize="14sp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/tv_review_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_below="@id/rating_review"
+            android:text="Tôi thấy bác sĩ khá thân thiện với mọi người, chữa bệnh rất hợp lí"
+            android:layout_marginTop="7dp"
+            android:textSize="16sp"
+            />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

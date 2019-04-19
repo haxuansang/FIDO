@@ -1,9 +1,11 @@
 package com.example.jake.fido.View.Fragment;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,8 +27,8 @@ public class InformationDoctorFragment extends Fragment {
     ReadMoreOption readMoreOption;
     LinearLayout ll_container;
     TextView tv_information;
-    FrameLayout fl_information,fl_workplace,fl_expierence,fl_reward;
-    LinearLayout fl_regency;
+    FrameLayout fl_information;
+    LinearLayout fl_regency,fl_workplace,fl_expierence,fl_reward;
     View mainView;
 
     // TODO: Rename and change types of parameters
@@ -66,13 +68,13 @@ public class InformationDoctorFragment extends Fragment {
         }
         createData();
     }
+    @TargetApi(Build.VERSION_CODES.M)
     private void createData() {
         readMoreOption = new ReadMoreOption.Builder(getContext())
-                .textLength(200)
                 .moreLabel("Đọc Thêm")
                 .lessLabel("Ẩn đi")
-                .moreLabelColor(Color.RED)
-                .lessLabelColor(Color.BLUE)
+                .moreLabelColor(getContext().getColor(R.color.colorPrimaryDark))
+                .lessLabelColor(getContext().getColor(R.color.colorPrimaryDark))
                 .labelUnderLine(true)
                 .build();
     }
@@ -84,19 +86,16 @@ public class InformationDoctorFragment extends Fragment {
         mainView=inflater.inflate(R.layout.fragment_information_doctor, container, false);
         fl_information = (FrameLayout) mainView.findViewById(R.id.layout_information);
         fl_regency = (LinearLayout) mainView.findViewById(R.id.layout_regency);
-        fl_workplace = (FrameLayout) mainView.findViewById(R.id.layout_workplace);
-        fl_expierence = (FrameLayout) mainView.findViewById(R.id.layout_expierence);
-        fl_reward = (FrameLayout) mainView.findViewById(R.id.layout_reward);
+        fl_workplace = (LinearLayout) mainView.findViewById(R.id.layout_workplace);
+        fl_expierence = (LinearLayout) mainView.findViewById(R.id.layout_expierence);
+        fl_reward = (LinearLayout) mainView.findViewById(R.id.layout_reward);
         ll_container = (LinearLayout)mainView.findViewById(R.id.ll_container);
         View infor_view =  getLayoutInflater().inflate(R.layout.doctor_infor,null);
         tv_information = (TextView)infor_view.findViewById(R.id.tv_infor);
-
-
-        for(int i=0;i<5;i++) {
-            View infor_view_element =  getLayoutInflater().inflate(R.layout.doctor_element_inside,fl_regency,false);
-            fl_regency.addView(infor_view_element);
-
-        }
+        addView(fl_regency,"");
+        addView(fl_workplace,"Bệnh Viện Ung Bướu Đà Nẵng");
+        addView(fl_reward,"Giải nhất cuộc thi bác sĩ giỏi thành phố Đà Nẵng");
+        addView(fl_expierence,"Bác sĩ tại bệnh viện Bình Dân thành phố Đà Nẵng");
         readMoreOption.addReadMoreTo(tv_information,getContext().getResources().getString(R.string.gioithieutest));
         fl_information.addView(infor_view);
         return mainView;
@@ -105,6 +104,15 @@ public class InformationDoctorFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
 
 
+
+    private void addView(ViewGroup view,String text) {
+        View infor_view_element =  getLayoutInflater().inflate(R.layout.doctor_element_inside,fl_regency,false);
+        TextView tv_detail = (TextView) infor_view_element.findViewById(R.id.tv_infor);
+        if(!"".equals(text)) {
+            tv_detail.setText(text);
+        }
+        view.addView(infor_view_element);
+    }
 
 
     @Override
