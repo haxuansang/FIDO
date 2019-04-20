@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="20dp">
-
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/review_title"
+        android:textAlignment="center"
+        android:layout_marginTop="5dp"
+        android:textSize="17sp"
+        android:textColor="@color/colorPrimaryDark"/>
     <RatingBar
+        android:layout_below="@id/tv_title"
         android:layout_centerHorizontal="true"
         android:id="@+id/rating_review"
         style="@style/Widget.AppCompat.RatingBar.Indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="10dp"
         android:numStars="5"
         android:progressTint="#FFD700"
         android:isIndicator="false"/>
@@ -34,3 +48,4 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" />
 </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_calling"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_outside_cardview"
@@ -42,6 +43,7 @@
                     android:tint="@color/colorPrimary" />
 
                 <TextView
+                    android:id="@+id/tv_calling"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"

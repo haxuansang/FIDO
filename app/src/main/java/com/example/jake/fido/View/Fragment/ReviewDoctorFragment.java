@@ -11,9 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.jake.fido.Objects.ReviewObject;
 import com.example.jake.fido.R;
+import com.example.jake.fido.Utils.InfiniteScrollListener;
 import com.example.jake.fido.View.Adapter.AdapterReviewDoctor;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class ReviewDoctorFragment extends Fragment {
     View view;
     RecyclerView rv_review;
     AdapterReviewDoctor adapterReviewDoctor;
+    RelativeLayout rl_loadingmore;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,7 +35,6 @@ public class ReviewDoctorFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
 
 
     public ReviewDoctorFragment() {
@@ -63,20 +65,26 @@ public class ReviewDoctorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_review_doctor, container, false);
-        rv_review  = (RecyclerView)view.findViewById(R.id.rv_review);
+        rv_review = (RecyclerView) view.findViewById(R.id.rv_review);
+        rl_loadingmore = (RelativeLayout) view.findViewById(R.id.rl_loading_more);
         List<ReviewObject> listReview = new ArrayList<>();
-        for (int i=0;i<10;i++)
+        for (int i = 0; i < 10; i++)
             listReview.add(new ReviewObject());
-        adapterReviewDoctor = new AdapterReviewDoctor(listReview,getContext(),getActivity());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rv_review.setLayoutManager(linearLayoutManager);
+        adapterReviewDoctor = new AdapterReviewDoctor(listReview, getContext(), getActivity());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
+        rv_review.setLayoutManager(gridLayoutManager);
         rv_review.setAdapter(adapterReviewDoctor);
+        rv_review.addOnScrollListener(new InfiniteScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+
+                rl_loadingmore.setVisibility(View.VISIBLE);
+                //add data
+                adapterReviewDoctor.notifyDataSetChanged();
+
+            }
+        });
         return view;
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-
-
-
 
 }

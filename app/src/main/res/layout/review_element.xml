@@ -23,7 +23,7 @@
             android:layout_toRightOf="@id/imv_user_review"
             android:text="Hà Xuân Sáng"
             android:textSize="17sp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="20dp"
             android:textColor="@color/colorPrimary"
             />
