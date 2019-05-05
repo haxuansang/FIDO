@@ -8,11 +8,11 @@
         android:id="@+id/rv_review"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/rl_loadingmore">
+        android:layout_above="@id/rl_loading_more">
     </android.support.v7.widget.RecyclerView>
     <include
+        android:id="@+id/rl_loading_more"
         android:visibility="gone"
-        android:id="@+id/rl_loadingmore"
         layout="@layout/loading_more"
         android:layout_alignParentBottom="true"
         android:layout_height="30dp"

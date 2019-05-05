@@ -43,7 +43,7 @@
                     android:tint="@color/colorPrimary" />
 
                 <TextView
-                    android:id="@+id/tv_calling"
+                    android:id="@+id/tv_phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
@@ -55,6 +55,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_maps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_outside_cardview"
@@ -81,6 +82,7 @@
                     android:tint="@color/colorPrimary" />
 
                 <TextView
+                    android:id="@+id/tv_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
@@ -92,6 +94,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_outside_cardview"
@@ -118,6 +121,7 @@
                     android:tint="@color/colorPrimary" />
 
                 <TextView
+                    android:id="@+id/tv_email"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
@@ -283,55 +287,6 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_outside_cardview"
-            android:layout_marginRight="@dimen/margin_outside_cardview"
-            android:layout_marginBottom="@dimen/margin_outside_cardview"
-            android:padding="10dp"
-            app:cardCornerRadius="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_inside_cardiew"
-                    android:layout_marginBottom="@dimen/margin_inside_cardiew"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
-
-                    <ImageView
-                        android:layout_width="@dimen/width_item_information"
-                        android:layout_height="@dimen/heigh_item_information"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_profits"
-                        android:tint="@color/colorPrimary" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="9"
-                        android:text="Kinh Nghiệm"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/size_text_informaton_doctor" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/layout_expierence"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_left_dot"
-                    android:layout_marginRight="@dimen/margin_outside_cardview"
-                    android:layout_marginBottom="@dimen/margin_information"></LinearLayout>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -366,14 +321,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="9"
-                        android:text="Giải Thưởng Và Ghi Nhận"
+                        android:text="Kinh nghiệm"
                         android:textColor="@color/black"
                         android:textSize="@dimen/size_text_informaton_doctor" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_reward"
+                    android:id="@+id/layout_expierence"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_left_dot"

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.example.jake.fido.Objects.DoctorObjects;
 import com.example.jake.fido.R;
+import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctor;
 import com.example.jake.fido.Utils.ItemClickListener;
 import com.example.jake.fido.Utils.TransitionItemClickListener;
 import com.squareup.picasso.Picasso;
@@ -27,12 +28,12 @@ import java.util.zip.Inflater;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdapterDoctors extends RecyclerView.Adapter<AdapterDoctors.ViewHolderDoctors>{
-    ArrayList<DoctorObjects> listDoctors;
+    ArrayList<Doctor> listDoctors;
     Activity mActivity;
     Context mContext;
     TransitionItemClickListener itemClickListener;
 
-    public AdapterDoctors(Activity mActivity, Context mContext, ArrayList<DoctorObjects> listDoctors)
+    public AdapterDoctors(Activity mActivity, Context mContext, ArrayList<Doctor> listDoctors)
     {
         this.mActivity = mActivity;
         this.mContext=mContext;
@@ -52,19 +53,24 @@ public class AdapterDoctors extends RecyclerView.Adapter<AdapterDoctors.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderDoctors holder, final int position) {
-        final DoctorObjects doctorObjects = listDoctors.get(position);
-        Glide.with(mContext).load(doctorObjects.getImageLink()).asBitmap().format(DecodeFormat.PREFER_ARGB_8888).into(holder.doctorImage);
-        holder.tvDoctorName.setText(doctorObjects.getName());
-        holder.tvMajor.setText("Chuyên khoa:"+doctorObjects.getMajor());
-        holder.tvAddress.setText(doctorObjects.getAddress());
-        holder.tvDescription.setText(doctorObjects.getDescription());
-        holder.ratingBar.setNumStars((int)doctorObjects.getEvaluation());
+        final Doctor doctor = listDoctors.get(position);
+        Glide.with(mContext).load(doctor.getAvatar()).asBitmap().format(DecodeFormat.PREFER_ARGB_8888).into(holder.doctorImage);
+        holder.tvDoctorName.setText("BS. "+doctor.getName());
+        holder.tvMajor.setText("Chuyên khoa: "+doctor.getSpecialistName());
+        holder.tvAddress.setText(doctor.getAddressDetails() +", "+ doctor.getAddressName());
+        //holder.tvDescription.setText(doctor.getDescription());
+        if(doctor.getRating()!=null) {
+            holder.ratingBar.setStepSize(0.1f);
+            holder.ratingBar.setRating(Float.parseFloat(doctor.getRating()));
+        }
+
         holder.rlDoctorElement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClickListener.onItemClick(position,doctorObjects,holder.doctorImage);
+                itemClickListener.onItemClick(position,doctor,holder.doctorImage);
             }
         });
+        holder.tvDescription.setText("Đánh giá " +doctor.getRating() + " sao dựa trên "+ doctor.getLikes()+" lượt bình chọn");
 
     }
 

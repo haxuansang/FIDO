@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.example.jake.fido.Instance.APIFido;
+import com.example.jake.fido.Instance.FidoData;
 import com.example.jake.fido.Objects.ReviewObject;
 import com.example.jake.fido.R;
 import com.example.jake.fido.Utils.InfiniteScrollListener;
@@ -70,18 +72,16 @@ public class ReviewDoctorFragment extends Fragment {
         List<ReviewObject> listReview = new ArrayList<>();
         for (int i = 0; i < 10; i++)
             listReview.add(new ReviewObject());
-        adapterReviewDoctor = new AdapterReviewDoctor(listReview, getContext(), getActivity());
+        adapterReviewDoctor = new AdapterReviewDoctor(FidoData.getInstance().getCurrentDoctor().getReview(), getContext(), getActivity());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         rv_review.setLayoutManager(gridLayoutManager);
         rv_review.setAdapter(adapterReviewDoctor);
         rv_review.addOnScrollListener(new InfiniteScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
                 rl_loadingmore.setVisibility(View.VISIBLE);
                 //add data
                 adapterReviewDoctor.notifyDataSetChanged();
-
             }
         });
         return view;

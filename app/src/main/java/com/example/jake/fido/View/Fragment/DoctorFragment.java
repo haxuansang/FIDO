@@ -26,16 +26,27 @@ import android.widget.Toast;
 
 import com.devs.readmoreoption.ReadMoreOption;
 import com.example.jake.fido.DetailDoctorActivity;
+import com.example.jake.fido.Instance.APIFido;
+import com.example.jake.fido.Instance.FidoData;
+import com.example.jake.fido.MainActivity;
 import com.example.jake.fido.Objects.DoctorObjects;
 import com.example.jake.fido.R;
+import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctor;
+import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctors;
 import com.example.jake.fido.Utils.InfiniteScrollListener;
 import com.example.jake.fido.Utils.ItemClickListener;
+import com.example.jake.fido.Utils.OnSearchClickListener;
 import com.example.jake.fido.Utils.TransitionItemClickListener;
 import com.example.jake.fido.View.Adapter.AdapterDoctors;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.example.jake.fido.Utils.Constants.DOCTOR_IMAGE_TRANSITION_NAME;
 import static com.example.jake.fido.Utils.Constants.DOCTOR_ITEM;
@@ -48,7 +59,7 @@ import static com.example.jake.fido.Utils.Constants.DOCTOR_ITEM;
  * Use the {@link DoctorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DoctorFragment extends Fragment implements TransitionItemClickListener {
+public class DoctorFragment extends Fragment implements TransitionItemClickListener,OnSearchClickListener  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,11 +73,10 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
     private OnFragmentInteractionListener mListener;
     private RecyclerView rvDoctors;
     AdapterDoctors adapterDoctors;
-    ArrayList<DoctorObjects> listFakeDoctors = new ArrayList<>();
+    ArrayList<Doctor> listFakeDoctors = new ArrayList<>();
     private GridLayoutManager gridLayoutManager;
     FloatingActionButton floatingActionButton;
     private RelativeLayout rl_loadingmore;
-
 
     public DoctorFragment() {
         // Required empty public constructor
@@ -95,10 +105,9 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        MainActivity.setOnSearchClickListener(this);
 
     }
-
 
 
     @Override
@@ -109,7 +118,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         rvDoctors = (RecyclerView) view.findViewById(R.id.rv_doctors);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
         rl_loadingmore = (RelativeLayout) view.findViewById(R.id.rl_loading_more);
-        fakeData();
+        getData();
         adapterDoctors = new AdapterDoctors(getActivity(), getContext(), listFakeDoctors);
         adapterDoctors.registerItemClickListener(this);
         gridLayoutManager = new GridLayoutManager(getContext(), 1);
@@ -118,9 +127,13 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         rvDoctors.addOnScrollListener(new InfiniteScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                rl_loadingmore.setVisibility(View.VISIBLE);
-                fakeData();
-                adapterDoctors.notifyDataSetChanged();
+                if (FidoData.getInstance().isLoadMore() && FidoData.getInstance().getTypeShow()==1) {
+                    rl_loadingmore.setVisibility(View.VISIBLE);
+                    loadMoreData();
+                }
+                else {
+
+                }
             }
         });
 
@@ -128,22 +141,43 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         return view;
     }
 
-    private void fakeData() {
-        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ", "Tâm thần", "Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn", "Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
-                "https://cdn.tuoitre.vn/thumb_w/640/2018/2/10/bac-si-tran-huynh-151824259749249048360.jpg", (int) 4.5));
-        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ", "Tâm thần", "Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn", "Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
-                "https://media.doisongvietnam.vn/u/rootimage/editor/2018/02/27/13/21/s21519690899_1206.jpg", (int) 4.5));
-        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ", "Tâm thần", "Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn", "Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
-                "https://cdn.tuoitre.vn/thumb_w/640/2018/2/10/bac-si-tran-huynh-151824259749249048360.jpg", (int) 4.5));
-        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ", "Tâm thần", "Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn", "Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
-                "https://media.doisongvietnam.vn/u/rootimage/editor/2018/02/27/13/21/s21519690899_1206.jpg", (int) 4.5));
-        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ", "Tâm thần", "Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn", "Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
-                "https://cdn.tuoitre.vn/thumb_w/640/2018/2/10/bac-si-tran-huynh-151824259749249048360.jpg", (int) 4.5));
-        listFakeDoctors.add(new DoctorObjects("Bs. Ngô Văn Võ", "Tâm thần", "Đánh giá 4.5 sao dựa trên 1220 lươt bình chọn", "Kiệt 82, Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng ",
-                "https://media.doisongvietnam.vn/u/rootimage/editor/2018/02/27/13/21/s21519690899_1206.jpg", (int) 4.5));
-        rl_loadingmore.setVisibility(View.GONE);
+    private void loadMoreData() {
+        APIFido.getInstance().getSoService().getDoctors(String.valueOf(FidoData.getInstance().getCurrentPage()+1)).enqueue(new Callback<Doctors>() {
+            @Override
+            public void onResponse(Call<Doctors> call, Response<Doctors> response) {
+                listFakeDoctors.addAll(response.body().getData());
+                adapterDoctors.notifyDataSetChanged();
+                rl_loadingmore.setVisibility(View.GONE);
+            }
 
+            @Override
+            public void onFailure(Call<Doctors> call, Throwable t) {
+                rl_loadingmore.setVisibility(View.GONE);
+            }
+        });
     }
+
+    private void getData() {
+        APIFido.getInstance().getSoService().getDoctors("1").enqueue(new Callback<Doctors>() {
+            @Override
+            public void onResponse(Call<Doctors> call, Response<Doctors> response) {
+                listFakeDoctors.addAll(response.body().getData());
+                adapterDoctors.notifyDataSetChanged();
+                rl_loadingmore.setVisibility(View.GONE);
+                FidoData.getInstance().setCurrentPage(response.body().getMeta().getCurrentPage());
+                if (FidoData.getInstance().getLastPage() == 0) {
+                    FidoData.getInstance().setLastPage(response.body().getMeta().getLastPage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Doctors> call, Throwable t) {
+                //Toast.makeText(MainActivity.this, "faid", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -171,9 +205,9 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
 
 
     @Override
-    public void onItemClick(int pos, DoctorObjects doctorObjects, CircleImageView sharedImageView) {
+    public void onItemClick(int pos, Doctor doctor, CircleImageView sharedImageView) {
         Intent intent = new Intent(getActivity(), DetailDoctorActivity.class);
-        intent.putExtra(DOCTOR_ITEM, doctorObjects);
+        intent.putExtra(DOCTOR_ITEM, doctor);
         intent.putExtra(DOCTOR_IMAGE_TRANSITION_NAME, ViewCompat.getTransitionName(sharedImageView));
 
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -182,6 +216,22 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
                 ViewCompat.getTransitionName(sharedImageView));
 
         startActivity(intent, options.toBundle());
+        FidoData.getInstance().setCurrentDoctor(doctor);
+    }
+
+    @Override
+    public void onSearchSubmit(List<Doctor> listDoctos) {
+        rl_loadingmore.setVisibility(View.GONE);
+        listFakeDoctors.clear();
+        listFakeDoctors.addAll(listDoctos);
+        adapterDoctors.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onCloseSearch() {
+        listFakeDoctors.clear();
+        getData();
 
     }
 

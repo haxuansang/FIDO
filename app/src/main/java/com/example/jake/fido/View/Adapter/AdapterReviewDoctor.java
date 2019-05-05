@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.devs.readmoreoption.ReadMoreOption;
 import com.example.jake.fido.Objects.ReviewObject;
 import com.example.jake.fido.R;
+import com.example.jake.fido.Retrofit.ObjectRetrofit.Review;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +27,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AdapterReviewDoctor extends RecyclerView.Adapter<AdapterReviewDoctor.ViewHolderReview> {
     private Context mContext;
     private Activity mActivity;
-    private List<ReviewObject> listReview = new ArrayList<>();
+    private List<Review> listReview = new ArrayList<>();
     ReadMoreOption readMoreOption;
 
     @TargetApi(Build.VERSION_CODES.M)
-    public AdapterReviewDoctor(List<ReviewObject> listReview, Context mContext, Activity mActivity){
+    public AdapterReviewDoctor(List<Review> listReview, Context mContext, Activity mActivity){
         this.mActivity= mActivity;
         this.mContext = mContext;
         this.listReview = listReview;
@@ -52,7 +53,15 @@ public class AdapterReviewDoctor extends RecyclerView.Adapter<AdapterReviewDocto
 
     @Override
     public void onBindViewHolder(@NonNull AdapterReviewDoctor.ViewHolderReview holder, int position) {
-            readMoreOption.addReadMoreTo(holder.tv_content_review,this.mContext.getResources().getString(R.string.gioithieutest));
+            final Review review = listReview.get(position);
+            readMoreOption.addReadMoreTo(holder.tv_content_review,review.getReview());
+            if(review.getPatientAvatar()!=null && !"".equals(review.getPatientAvatar())){
+
+                Glide.with(mContext).load(review.getPatientAvatar()).fitCenter().into(holder.cv_user);
+            }
+            holder.tv_nameuser.setText(review.getPatientName());
+        holder.ratingBar.setStepSize(0.1f);
+        holder.ratingBar.setRating(Float.parseFloat(review.getStar()));
 
     }
 

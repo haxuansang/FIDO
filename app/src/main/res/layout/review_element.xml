@@ -35,8 +35,7 @@
             android:rating="4.5"
             android:numStars="5"
             android:layout_marginTop="8dp"
-            style="@style/Widget.AppCompat.RatingBar.Indicator"
-            android:progressTint="#FFD700"/>
+            style="@style/RatingBar" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
