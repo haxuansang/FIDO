@@ -1,5 +1,6 @@
 package com.example.jake.fido.View.Fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,36 +15,33 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
-import com.devs.readmoreoption.ReadMoreOption;
 import com.example.jake.fido.DetailDoctorActivity;
 import com.example.jake.fido.Instance.APIFido;
 import com.example.jake.fido.Instance.FidoData;
 import com.example.jake.fido.MainActivity;
-import com.example.jake.fido.Objects.DoctorObjects;
 import com.example.jake.fido.R;
 import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctor;
 import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctors;
 import com.example.jake.fido.Utils.InfiniteScrollListener;
-import com.example.jake.fido.Utils.ItemClickListener;
 import com.example.jake.fido.Utils.OnSearchClickListener;
 import com.example.jake.fido.Utils.TransitionItemClickListener;
 import com.example.jake.fido.View.Adapter.AdapterDoctors;
-import com.squareup.picasso.Picasso;
-
+import com.example.jake.fido.View.Adapter.AdapterSpinner;
 import java.util.ArrayList;
-import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,7 +57,7 @@ import static com.example.jake.fido.Utils.Constants.DOCTOR_ITEM;
  * Use the {@link DoctorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DoctorFragment extends Fragment implements TransitionItemClickListener,OnSearchClickListener  {
+public class DoctorFragment extends Fragment implements TransitionItemClickListener, OnSearchClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -77,7 +75,9 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
     private GridLayoutManager gridLayoutManager;
     FloatingActionButton floatingActionButton;
     private RelativeLayout rl_loadingmore;
-
+    private AdapterSpinner adapterSpinnerMajor;
+    private AdapterSpinner adapterSpinnerSort;
+    private AdapterSpinner adapterSpinnerAddress;
     public DoctorFragment() {
         // Required empty public constructor
     }
@@ -106,14 +106,12 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         MainActivity.setOnSearchClickListener(this);
-
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_doctor, container, false);
         rvDoctors = (RecyclerView) view.findViewById(R.id.rv_doctors);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
@@ -127,22 +125,115 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         rvDoctors.addOnScrollListener(new InfiniteScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if (FidoData.getInstance().isLoadMore() && FidoData.getInstance().getTypeShow()==1) {
+                if (FidoData.getInstance().isLoadMore() && FidoData.getInstance().getTypeShow() == 1) {
                     rl_loadingmore.setVisibility(View.VISIBLE);
                     loadMoreData();
-                }
-                else {
-
+                } else if (FidoData.getInstance().isLoadMore()) {
+                    loadMoreSuggesstion(FidoData.getInstance().getSearch(), FidoData.getInstance().getSpecial_id(), FidoData.getInstance().getAddress_id(), String.valueOf(FidoData.getInstance().getCurrentPage() + 1));
                 }
             }
         });
-
-
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSearchDialog();
+            }
+        });
         return view;
     }
 
+    private void showSearchDialog() {
+        Spinner spinnerMajor, spinnerAddress, spinnerSort;
+        Button btnSearch;
+        Dialog dialogSearch = new Dialog(getContext());
+        dialogSearch.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogSearch.setContentView(R.layout.searchdialog);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialogSearch.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+        dialogSearch.getWindow().setAttributes(lp);
+        spinnerSort = (Spinner) dialogSearch.findViewById(R.id.spinner_sort);
+        spinnerAddress = (Spinner) dialogSearch.findViewById(R.id.spinner_city_doctor);
+        spinnerMajor = (Spinner) dialogSearch.findViewById(R.id.spinner_major_doctor);
+        createSpinnerMajor(spinnerSort,0);
+        createSpinnerMajor(spinnerMajor,1);
+        createSpinnerMajor(spinnerAddress,2);
+        btnSearch = (Button) dialogSearch.findViewById(R.id.btnsearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadMoreSuggesstion("",String.valueOf(spinnerMajor.getSelectedItemPosition()),String.valueOf(spinnerAddress.getSelectedItemPosition()),"1");
+                listFakeDoctors.clear();
+                dialogSearch.dismiss();
+            }
+        });
+        dialogSearch.show();
+
+    }
+
+    private void createSpinnerMajor(Spinner spinner, int type) {
+        String[] listMajor;
+        ArrayList<String> list = new ArrayList<>();
+
+        switch (type) {
+            case 0:
+                listMajor = getResources().getStringArray(R.array.listsort);
+                for (int i = 0; i < listMajor.length; i++) {
+                    list.add(listMajor[i]);
+                }
+                adapterSpinnerSort = new AdapterSpinner(getContext(), list);
+                spinner.setAdapter(adapterSpinnerSort);
+                break;
+
+            case 1:
+                listMajor = getResources().getStringArray(R.array.listmajor);
+                for (int i = 0; i < listMajor.length; i++) {
+                    list.add(listMajor[i]);
+                }
+                adapterSpinnerMajor = new AdapterSpinner(getContext(), list);
+                spinner.setAdapter(adapterSpinnerMajor);
+                break;
+            case 2:
+                listMajor = getResources().getStringArray(R.array.listcity);
+                for (int i = 0; i < listMajor.length; i++) {
+                    list.add(listMajor[i]);
+                }
+                adapterSpinnerAddress = new AdapterSpinner(getContext(), list);
+                spinner.setAdapter(adapterSpinnerAddress);
+                break;
+
+        }
+    }
+
+    private void loadMoreSuggesstion(String search, String special_id, String address_id, String page) {
+        final RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("name", search).addFormDataPart("special_id", special_id).
+                        addFormDataPart("address_id", address_id)
+                .build();
+
+        APIFido.getInstance().getSoService().searchDoctors(requestBody, page).enqueue(new Callback<Doctors>() {
+            @Override
+            public void onResponse(Call<Doctors> call, Response<Doctors> response) {
+                listFakeDoctors.addAll(response.body().getData());
+                adapterDoctors.notifyDataSetChanged();
+                FidoData.getInstance().setCurrentPage(response.body().getMeta().getCurrentPage());
+                FidoData.getInstance().setLastPage(response.body().getMeta().getLastPage());
+
+            }
+
+            @Override
+            public void onFailure(Call<Doctors> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     private void loadMoreData() {
-        APIFido.getInstance().getSoService().getDoctors(String.valueOf(FidoData.getInstance().getCurrentPage()+1)).enqueue(new Callback<Doctors>() {
+        APIFido.getInstance().getSoService().getDoctors(String.valueOf(FidoData.getInstance().getCurrentPage() + 1)).enqueue(new Callback<Doctors>() {
             @Override
             public void onResponse(Call<Doctors> call, Response<Doctors> response) {
                 listFakeDoctors.addAll(response.body().getData());
@@ -219,12 +310,12 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         FidoData.getInstance().setCurrentDoctor(doctor);
     }
 
+
     @Override
-    public void onSearchSubmit(List<Doctor> listDoctos) {
-        rl_loadingmore.setVisibility(View.GONE);
+    public void onSearchSubmit(String name, String special_id, String address_id) {
         listFakeDoctors.clear();
-        listFakeDoctors.addAll(listDoctos);
-        adapterDoctors.notifyDataSetChanged();
+        loadMoreSuggesstion(name, special_id, address_id, "1");
+        FidoData.getInstance().setSearch(name, special_id, address_id);
 
     }
 

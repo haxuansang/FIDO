@@ -26,5 +26,5 @@ public interface SOService {
     Call<Doctors> getDoctors(@Query("page") String path);
 
     @POST("search")
-    Call<Doctors> searchDoctors(@Body RequestBody body);
+    Call<Doctors> searchDoctors(@Body RequestBody body,@Query("page") String page);
 }

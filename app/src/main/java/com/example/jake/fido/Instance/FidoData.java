@@ -10,6 +10,39 @@ public class FidoData {
     private int currentPage;
     private int lastPage;
     private int typeShow=1;
+    private String search="";
+    private String special_id= "";
+    private String address_id = "";
+
+    public void setSearch(String name,String si, String ai)
+    {
+        this.search = name;
+        this.special_id = si;
+        this.address_id = ai;
+    }
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
+    public String getSpecial_id() {
+        return special_id;
+    }
+
+    public void setSpecial_id(String special_id) {
+        this.special_id = special_id;
+    }
+
+    public String getAddress_id() {
+        return address_id;
+    }
+
+    public void setAddress_id(String address_id) {
+        this.address_id = address_id;
+    }
 
     public int getTypeShow() {
         return typeShow;

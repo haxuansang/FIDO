@@ -78,17 +78,6 @@ public class MainActivity extends AppCompatActivity
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
         searchView.setVoiceSearch(true);
         searchView.setEllipsize(true);
-
-
-
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
         searchView.setSuggestions(listSuggestions);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -177,18 +166,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_update:
                 fragmentClass = UpdateFragment.class;
 
-
-
-     /*   } else if (id == R.id.na) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-*/
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -197,61 +174,27 @@ public class MainActivity extends AppCompatActivity
         }
 
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        /*// Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());*/
-
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if(!"".equals(query))
-           getSuggestions(query);
-
+        if (!"".equals(query))
+            if (onSearchClickListener != null) {
+                onSearchClickListener.onSearchSubmit(query, "", "");
+            }
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if(!"".equals(newText))
-            getSuggestions(newText);
+        if (!"".equals(newText))
+            if (onSearchClickListener != null) {
+                onSearchClickListener.onSearchSubmit(newText, "", "");
+
+            }
         return true;
-    }
-
-    private void getSuggestions(String newText) {
-        final RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("name", newText)
-                .build();
-
-        APIFido.getInstance().getSoService().searchDoctors(requestBody).enqueue(new Callback<Doctors>() {
-            @Override
-            public void onResponse(Call<Doctors> call, Response<Doctors> response) {
-                if(onSearchClickListener!=null) {
-                    onSearchClickListener.onSearchSubmit(response.body().getData());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Doctors> call, Throwable t) {
-
-            }
-        });
-
-    }
-
-
-    private void updateSuggestionsAdapter(List<Doctor> data) {
-        List<String> listDoctor = new ArrayList<>();
-        for (Doctor doctor : data
-        ) {
-            listDoctor.add(doctor.getName());
-        }
-        listSuggestions = listDoctor.toArray(new String[listDoctor.size()]);
-        searchView.setSuggestions(listSuggestions);
     }
 
     @Override

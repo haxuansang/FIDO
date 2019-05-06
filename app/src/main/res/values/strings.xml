@@ -19,33 +19,51 @@
 
     </string-array>
     <string-array name="listmajor">
-        <item>Bệnh học tim‎ </item>
         <item>Bệnh lý học‎</item>
         <item>Bệnh truyền nhiễm‎</item>
-        <item>Chuyên khoa nội</item>
-        <item>Da liễu học‎</item>
-        <item>Dị ứng‎ </item>
-        <item>Độc chất học‎</item>
-        <item>Huyết học‎</item>
-        <item>Khoa hô hấp‎</item>
-        <item>Khoa tiêu hóa‎</item>
-        <item>Ngoại khoa‎</item>
-        <item>Nha khoa‎</item>
-        <item>Nhãn khoa‎</item>
-        <item>Nhi khoa‎</item>
-        <item>Niệu khoa‎ </item>
-        <item>Nội khoa‎</item>
-        <item>Nội tiết khoa‎</item>
-        <item>Chuyên ngành phẫu thuật‎</item>
-        <item>Phụ khoa‎</item>
-        <item>Sản khoa</item>
-        <item>Sức khỏe tình dục‎</item>
-        <item>Tai mũi họng</item>
-        <item>Tâm thần </item>
-        <item>Thận khoa</item>
-        <item>Thần kinh khoa</item>
-        <item>Ung thư</item>
+        <item>Chấn thương chỉnh hình</item>
+        <item>Gây mê‎</item>
+        <item>Khoa tâm thần‎ </item>
+        <item>Khoa tâm thần và tâm lý trị liệu cho trẻ em và trẻ mới lớn‎</item>
+        <item>Lão‎</item>
+        <item>Dị ứng và miễn dịch học</item>
+        <item>Ngoại nhi</item>
+        <item>Ngoại thần kinh</item>
+        <item>Ngoại tim mạch</item>
+        <item>Ngoại tổng quát</item>
+        <item>Nhi Tim mạch</item>
+        <item>Nội khoa</item>
+        <item>Nội tiết</item>
+        <item>Nhãn khoa</item>
+        <item>Nhi khoa</item>
+        <item>Nhi Dị ứng</item>
+        <item>Nhi huyết học và nhi ung biếu</item>
+        <item>Nhi nội tiết và nhi tiểu đường</item>
+        <item>Nhi thận</item>
+        <item>Nhi tiêu hóa, nhi gan-mật-tụy và nhi dinh dưỡng</item>
+        <item>Nhi truyền nhiễm</item>
+        <item>Phẫu thuật tạo hình</item>
+        <item>Phổi</item>
+        <item>Sản phụ khoa</item>
+        <item>Sơ sinh</item>
+        <item>Tai mũi họng (y khoa)</item>
+        <item>Thần kinh sinh lý học lâm sàng</item>
+        <item>Tiết niệu</item>
+        <item>Khoa tiêu hóa</item>
+        <item>Tim mạch</item>
+        <item>Thần kinh học</item>
+        <item>Thận học</item>
+        <item>Vô tuyến học</item>
+        <item>Vô tuyến học can thiệp</item>
+        <item>Vô tuyến trị liệu</item>
+        <item>Vi sinh học</item>
+        <item>Y hạt nhân</item>
 
+    </string-array>
+
+    <string-array name="listsort">
+        <item>Đánh giá cao nhất</item>
+        <item>Gần đây nhất</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
