@@ -137,7 +137,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         });
         rvDoctors.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {git
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) floatingActionButton.hide();
                 else floatingActionButton.show();
                 super.onScrolled(recyclerView, dx, dy);
