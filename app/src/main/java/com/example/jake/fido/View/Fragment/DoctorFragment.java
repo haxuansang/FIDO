@@ -78,6 +78,8 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
     private AdapterSpinner adapterSpinnerMajor;
     private AdapterSpinner adapterSpinnerSort;
     private AdapterSpinner adapterSpinnerAddress;
+    int scrollDist = 0;
+    boolean isVisible = true;
     public DoctorFragment() {
         // Required empty public constructor
     }
@@ -131,6 +133,14 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
                 } else if (FidoData.getInstance().isLoadMore()) {
                     loadMoreSuggesstion(FidoData.getInstance().getSearch(), FidoData.getInstance().getSpecial_id(), FidoData.getInstance().getAddress_id(), String.valueOf(FidoData.getInstance().getCurrentPage() + 1));
                 }
+            }
+        });
+        rvDoctors.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {git
+                if (dy > 0) floatingActionButton.hide();
+                else floatingActionButton.show();
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
