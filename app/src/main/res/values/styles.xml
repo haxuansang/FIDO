@@ -25,5 +25,9 @@
         <item name="android:progressTint">#FFD700</item>
         <item name="android:secondaryProgressTint">#FFD700</item>
     </style>
+    <style name="AnimationPreview">
+        <item name="android:windowEnterAnimation">@animator/fade_in</item>
+        <item name="android:windowExitAnimation">@animator/fade_out</item>
+    </style>
 
 </resources>

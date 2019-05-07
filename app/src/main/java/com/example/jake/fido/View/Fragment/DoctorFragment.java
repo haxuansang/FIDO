@@ -259,6 +259,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
     }
 
     private void getData() {
+        if(APIFido.getInstance().getSoService()!=null)
         APIFido.getInstance().getSoService().getDoctors("1").enqueue(new Callback<Doctors>() {
             @Override
             public void onResponse(Call<Doctors> call, Response<Doctors> response) {

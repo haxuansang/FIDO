@@ -1,14 +1,30 @@
 package com.example.jake.fido.View.Fragment;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.jake.fido.MultipleImagesSelector.ImagesSelectorActivity;
+import com.example.jake.fido.MultipleImagesSelector.SelectorSettings;
 import com.example.jake.fido.R;
+
+import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
+import static android.support.constraint.Constraints.TAG;
+import static com.example.jake.fido.Utils.Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,11 +34,16 @@ import com.example.jake.fido.R;
  * Use the {@link UpdateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UpdateFragment extends Fragment {
+public class UpdateFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private View mainView;
+    private Button btn_addpicture;
+    private ArrayList<String> mResults =new ArrayList<>();
+    private static final int REQUEST_CODE_CHOOSE =1997 ;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,7 +86,10 @@ public class UpdateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_update, container, false);
+        mainView = inflater.inflate(R.layout.fragment_update, container, false);
+        btn_addpicture = (Button) mainView.findViewById(R.id.btn_chungchi);
+        btn_addpicture.setOnClickListener(this);
+        return mainView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,6 +116,50 @@ public class UpdateFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_chungchi:
+                getImages();
+                break;
+        }
+    }
+
+    private void getImages() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED || getActivity().checkSelfPermission(Manifest.permission.WRITE_SETTINGS)
+                    != PackageManager.PERMISSION_GRANTED ) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_SETTINGS},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+
+            }
+        }
+
+        Intent intent = new Intent(getActivity(), ImagesSelectorActivity.class);
+        // max number of images to be selected
+        intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 5);
+        // min size of image which will be shown; to filter tiny images (mainly icons)
+        intent.putExtra(SelectorSettings.SELECTOR_MIN_IMAGE_SIZE, 100000);
+        // show camera or not
+        intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, true);
+        // pass current selected images as the initial value
+        intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mResults);
+        // start the selector
+        startActivityForResult(intent, REQUEST_CODE_CHOOSE);
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -105,5 +173,31 @@ public class UpdateFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            Log.d(TAG, "onActivityResult: aaaaaaa");
+            mResults = new ArrayList<>();
+            mResults = data.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS);
+           // DataGalery.getInstance().putListEncodeImages(mResults);
+            Toast.makeText(getContext(), ""+mResults.size(), Toast.LENGTH_SHORT).show();
+
+          /*  if(adapterAdd==null)
+            {
+                Log.d(TAG, "onActivityResult: aaaaaaa11111");
+                adapterAdd = new AdapterAdd(mResults,getContext(),getActivity());
+                rv_addpicture.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                rv_addpicture.setAdapter(adapterAdd);
+            }
+            else {
+                adapterAdd.updateNewList(mResults);
+                Log.d(TAG, "onActivityResult: aaaaaaa22222");
+
+            }*/
+        }
+
     }
 }
