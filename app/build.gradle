@@ -66,6 +66,8 @@ dependencies {
     //Material Searchview
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.github.devsideal:ReadMoreOption:1.0.0'
-
+    //Bind View
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 
 }

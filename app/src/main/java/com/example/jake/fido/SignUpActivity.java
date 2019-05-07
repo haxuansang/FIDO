@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,16 +19,22 @@ import com.example.jake.fido.View.Adapter.AdapterSpinner;
 
 import java.util.ArrayList;
 
-public class SignUpActivity extends AppCompatActivity implements  BottomNavigationView.OnNavigationItemSelectedListener{
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class SignUpActivity extends AppCompatActivity implements  BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private TextView mTextMessage;
     private Spinner spinnerCity,spinnerMajor;
     LinearLayout linearDoctor;
+    @BindView(R.id.already_user)
+    Button btn_already_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        ButterKnife.bind(this);
         spinnerCity=(Spinner)findViewById(R.id.spinner_city_doctor);
         spinnerMajor=(Spinner)findViewById(R.id.spinner_major_doctor);
         mTextMessage = (TextView) findViewById(R.id.message);
@@ -36,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity implements  BottomNavigati
         navigation.setOnNavigationItemSelectedListener(this);
         createSpinnerCity();
         createSpinnerMajor();
-
+        btn_already_user.setOnClickListener(this);
     }
 
     private void createListCity() {
@@ -83,5 +90,15 @@ public class SignUpActivity extends AppCompatActivity implements  BottomNavigati
 
         }
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.already_user:
+                finish();
+                break;
+
+        }
     }
 }

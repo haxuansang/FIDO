@@ -36,15 +36,16 @@
 
     <TextView
         android:id="@+id/tv_namedoctor"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="44dp"
         android:layout_toRightOf="@id/circleview_doctor"
         android:text="Bs. Hà Xuân Sáng"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginTop="4dp"
+
         />
     <TextView
         android:id="@+id/tv_major_doctor"

@@ -131,7 +131,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
                     rl_loadingmore.setVisibility(View.VISIBLE);
                     loadMoreData();
                 } else if (FidoData.getInstance().isLoadMore()) {
-                    loadMoreSuggesstion(FidoData.getInstance().getSearch(), FidoData.getInstance().getSpecial_id(), FidoData.getInstance().getAddress_id(), String.valueOf(FidoData.getInstance().getCurrentPage() + 1));
+                    loadMoreSuggesstion("",FidoData.getInstance().getSearch(), FidoData.getInstance().getSpecial_id(), FidoData.getInstance().getAddress_id(), String.valueOf(FidoData.getInstance().getCurrentPage() + 1));
                 }
             }
         });
@@ -174,7 +174,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadMoreSuggesstion("",String.valueOf(spinnerMajor.getSelectedItemPosition()),String.valueOf(spinnerAddress.getSelectedItemPosition()),"1");
+                loadMoreSuggesstion(String.valueOf(spinnerSort.getSelectedItemPosition()),FidoData.getInstance().getSearch(),String.valueOf(spinnerMajor.getSelectedItemPosition()),String.valueOf(spinnerAddress.getSelectedItemPosition()),"1");
                 listFakeDoctors.clear();
                 dialogSearch.dismiss();
             }
@@ -217,11 +217,11 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         }
     }
 
-    private void loadMoreSuggesstion(String search, String special_id, String address_id, String page) {
+    private void loadMoreSuggesstion(String sort,String search, String special_id, String address_id, String page) {
         final RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("name", search).addFormDataPart("special_id", special_id).
-                        addFormDataPart("address_id", address_id)
+                        addFormDataPart("address_id", address_id).addFormDataPart("filter",sort)
                 .build();
 
         APIFido.getInstance().getSoService().searchDoctors(requestBody, page).enqueue(new Callback<Doctors>() {
@@ -325,7 +325,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
     @Override
     public void onSearchSubmit(String name, String special_id, String address_id) {
         listFakeDoctors.clear();
-        loadMoreSuggesstion(name, special_id, address_id, "1");
+        loadMoreSuggesstion("",name, special_id, address_id, "1");
         FidoData.getInstance().setSearch(name, special_id, address_id);
 
     }

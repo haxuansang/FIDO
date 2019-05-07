@@ -27,4 +27,9 @@ public interface SOService {
 
     @POST("search")
     Call<Doctors> searchDoctors(@Body RequestBody body,@Query("page") String page);
+
+    @POST("login")
+    Call<LoginRetrofit> login(@Body RequestBody body);
+
+
 }

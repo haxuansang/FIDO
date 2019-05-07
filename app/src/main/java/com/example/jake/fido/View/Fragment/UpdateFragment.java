@@ -1,12 +1,17 @@
 package com.example.jake.fido.View.Fragment;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -14,13 +19,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.jake.fido.MultipleImagesSelector.ImagesSelectorActivity;
 import com.example.jake.fido.MultipleImagesSelector.SelectorSettings;
 import com.example.jake.fido.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import butterknife.BindArray;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 import static android.support.constraint.Constraints.TAG;
@@ -40,10 +60,46 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private View mainView;
-    private Button btn_addpicture;
+    @BindView(R.id.btn_chungchi)
+    Button btn_addpicture;
     private ArrayList<String> mResults =new ArrayList<>();
     private static final int REQUEST_CODE_CHOOSE =1997 ;
-
+    @BindView(R.id.ci_user_manage)
+    CircleImageView ci_user;
+    @BindView(R.id.edt_register_Email)
+    EditText edt_email;
+    @BindView(R.id.edt_register_Username)
+    EditText edt_username;
+    @BindView(R.id.edt_register_Password)
+    EditText edt_password;
+    @BindView(R.id.edt_register_PassworkVerify)
+    EditText edt_password_verify;
+    @BindView(R.id.edt_phone)
+    EditText edt_phone;
+    @BindView(R.id.edt_cmnd)
+    EditText edt_cmnd;
+    @BindView(R.id.edt_date_cmnd)
+    EditText edt_cmnd_date;
+    @BindView(R.id.edt_address_cmnd)
+    EditText edt_cmnd_addres;
+    @BindView(R.id.spinner_city_doctor)
+    Spinner spinerr_city;
+    @BindView(R.id.spinner_major_doctor)
+    Spinner spierr_major;
+    @BindView(R.id.spinner_submajor_doctor)
+    Spinner spiner_submajor;
+    @BindView(R.id.edt_address)
+    EditText edt_addres;
+    @BindView(R.id.edt_chucvu)
+    EditText edt_chucvu;
+    @BindView(R.id.edt_description)
+    EditText edt_description;
+    @BindView(R.id.edt_address_working)
+    EditText edt_address_working;
+    @BindView(R.id.edt_expierence)
+    EditText edt_expierence;
+    @BindView(R.id.btn_submit)
+    Button btn_submit;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -87,8 +143,9 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_update, container, false);
-        btn_addpicture = (Button) mainView.findViewById(R.id.btn_chungchi);
+        ButterKnife.bind(this,mainView);
         btn_addpicture.setOnClickListener(this);
+        ci_user.setOnClickListener(this);
         return mainView;
     }
 
@@ -122,8 +179,18 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_chungchi:
                 getImages();
                 break;
+            case R.id.ci_user_manage:
+                loadImageFromLibrary();
         }
     }
+
+    private void loadImageFromLibrary() {
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+        startActivityForResult(Intent.createChooser(pickIntent, "Select Picture"), 7171);
+    }
+
+
 
     private void getImages() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -182,8 +249,8 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
             Log.d(TAG, "onActivityResult: aaaaaaa");
             mResults = new ArrayList<>();
             mResults = data.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS);
-           // DataGalery.getInstance().putListEncodeImages(mResults);
-            Toast.makeText(getContext(), ""+mResults.size(), Toast.LENGTH_SHORT).show();
+            // DataGalery.getInstance().putListEncodeImages(mResults);
+            Toast.makeText(getContext(), "" + mResults.size(), Toast.LENGTH_SHORT).show();
 
           /*  if(adapterAdd==null)
             {
@@ -197,7 +264,24 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
                 Log.d(TAG, "onActivityResult: aaaaaaa22222");
 
             }*/
-        }
+        } else if (requestCode == 7171) {
+            final ProgressDialog progressDialog = new ProgressDialog(getContext());
+            progressDialog.setTitle("Đăng ảnh");
+            progressDialog.setMessage("Vui lòng chờ...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
 
+            final Uri uri = data.getData();
+            if (uri != null) {
+                try {
+
+                    final Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                    ci_user.setImageBitmap(bitmap);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

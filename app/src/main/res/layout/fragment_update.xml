@@ -26,7 +26,7 @@
         android:layout_marginBottom="145dp"
         android:gravity="center"
         android:animateLayoutChanges="true">
-        <RelativeLayout android:id="@+id/rl_manage"
+        <RelativeLayout android:id="@+id/rl_change_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -169,14 +169,59 @@
                 android:textColorHint="@color/colorPrimaryDark"
                 android:textSize="16sp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Giới tính:"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"/>
+                <RadioGroup
+                    android:id="@+id/radiogr_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="0dp"
+                    android:layout_marginLeft="-20dp"
+                    >
 
+                    <RadioButton
+                        android:id="@+id/radiobtn_gender_Male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nam"
+                        android:textColorHint="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimaryDark"
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/radiobtn_gender_Female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nữ"
+                        android:textColorHint="@color/colorPrimaryDark"
+                        android:layout_marginLeft="55dp"
+                        android:textColor="@color/colorPrimaryDark"/>
+                </RadioGroup>
+
+            </LinearLayout>
         </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_name_cmnd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
-                android:id="@+id/edt_cmnd"
+                android:id="@+id/edt_phone"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -196,7 +241,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
-                android:id="@+id/edt_phone"
+                android:id="@+id/edt_cmnd"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -254,50 +299,7 @@
 
 
         </android.support.design.widget.TextInputLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Giới tính:"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"/>
-            <RadioGroup
-                android:id="@+id/radiogr_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="0dp"
-                android:layout_marginLeft="-20dp"
-                >
 
-                <RadioButton
-                    android:id="@+id/radiobtn_gender_Male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nam"
-                    android:textColorHint="@color/colorPrimaryDark"
-                    android:textColor="@color/colorPrimaryDark"
-
-                    />
-
-                <RadioButton
-                    android:id="@+id/radiobtn_gender_Female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nữ"
-                    android:textColorHint="@color/colorPrimaryDark"
-                    android:layout_marginLeft="55dp"
-                    android:textColor="@color/colorPrimaryDark"/>
-            </RadioGroup>
-
-        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -334,16 +336,12 @@
                     >
                 </Spinner>
             </LinearLayout>
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_adress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
+            <Button
                     android:id="@+id/edt_address"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/shape_normal"
                     android:drawablePadding="8dp"
                     android:gravity="center_vertical"
                     android:hint="@string/address"
@@ -351,8 +349,9 @@
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textSize="16sp"
+                    />
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -458,7 +457,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
-                    android:id="@+id/edt_specialist"
+                    android:id="@+id/edt_description"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"

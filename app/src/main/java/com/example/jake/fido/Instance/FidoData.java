@@ -1,5 +1,6 @@
 package com.example.jake.fido.Instance;
 
+import com.example.jake.fido.Retrofit.LoginRetrofit;
 import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctor;
 
 import java.util.ArrayList;
@@ -13,8 +14,17 @@ public class FidoData {
     private String search="";
     private String special_id= "";
     private String address_id = "";
+    private LoginRetrofit loginRetrofit;
 
-    public void setSearch(String name,String si, String ai)
+    public LoginRetrofit getLoginRetrofit() {
+        return loginRetrofit;
+    }
+
+    public void setLoginRetrofit(LoginRetrofit loginRetrofit) {
+        this.loginRetrofit = loginRetrofit;
+    }
+
+    public void setSearch(String name, String si, String ai)
     {
         this.search = name;
         this.special_id = si;
