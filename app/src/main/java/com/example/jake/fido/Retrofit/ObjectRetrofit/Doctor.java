@@ -83,13 +83,13 @@ public class Doctor  implements Parcelable {
     private String hospitalName;
     @SerializedName("address_details")
     @Expose
-    private Object addressDetails;
+    private String addressDetails;
     @SerializedName("longtatude")
     @Expose
-    private Object longtatude;
+    private String longtatude;
     @SerializedName("latitude")
     @Expose
-    private Object latitude;
+    private String latitude;
     @SerializedName("employee_id")
     @Expose
     private Integer employeeId;
@@ -272,27 +272,27 @@ public class Doctor  implements Parcelable {
         this.hospitalName = hospitalName;
     }
 
-    public Object getAddressDetails() {
+    public String getAddressDetails() {
         return addressDetails;
     }
 
-    public void setAddressDetails(Object addressDetails) {
+    public void setAddressDetails(String addressDetails) {
         this.addressDetails = addressDetails;
     }
 
-    public Object getLongtatude() {
+    public String getLongtatude() {
         return longtatude;
     }
 
-    public void setLongtatude(Object longtatude) {
+    public void setLongtatude(String longtatude) {
         this.longtatude = longtatude;
     }
 
-    public Object getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Object latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
@@ -322,6 +322,9 @@ public class Doctor  implements Parcelable {
 
     public List<Review> getReview() {
         return review;
+    }
+    public void addReview(Review areview){
+        review.add(0,areview);
     }
 
     public void setReview(List<Review> review) {

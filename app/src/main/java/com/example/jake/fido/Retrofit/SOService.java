@@ -3,6 +3,9 @@ package com.example.jake.fido.Retrofit;
 
 import com.example.jake.fido.Retrofit.ObjectRetrofit.City;
 import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctors;
+import com.example.jake.fido.Retrofit.ObjectRetrofit.Review;
+import com.example.jake.fido.Retrofit.ReviewObject.ReviewResponse;
+import com.example.jake.fido.Retrofit.ReviewObject.ReviewUp;
 
 import java.util.List;
 
@@ -75,11 +78,21 @@ public interface SOService {
                                          @Part("title") RequestBody chucvu,@Part("office") RequestBody office,@Part("description") RequestBody description,
                                          @Part("expierence") RequestBody expierence,@Part("_method") RequestBody methodput);
 
+    @Multipart
+    @POST("patients/{path}")
+    Call<LoginRetrofit> updatePatientsFile(@Path("path") String path, @Part MultipartBody.Part file, @Part("name") RequestBody name,@Part("gender") RequestBody gender,@Part("phone_number") RequestBody phone_number,
+                                       @Part("id_number") RequestBody id_number,@Part("id_number_date") RequestBody id_number_date,
+                                       @Part("id_number_place") RequestBody id_number_place,@Part("address_id") RequestBody address_id,@Part("_method") RequestBody methodput);
 
     @Multipart
     @POST("patients/{path}")
-    Call<LoginRetrofit> updatePatients(@Path("path") String path, @Part MultipartBody.Part file, @Part("name") RequestBody name,@Part("gender") RequestBody gender,@Part("phone_number") RequestBody phone_number,
+    Call<LoginRetrofit> updatePatients(@Path("path") String path, @Part("name") RequestBody name,@Part("gender") RequestBody gender,@Part("phone_number") RequestBody phone_number,
                                      @Part("id_number") RequestBody id_number,@Part("id_number_date") RequestBody id_number_date,
                                      @Part("id_number_place") RequestBody id_number_place,@Part("address_id") RequestBody address_id,@Part("_method") RequestBody methodput);
 
+    @POST("reset-password")
+    Call<ResetPassword> resetpassword(@Body RequestBody body);
+
+    @POST("doctors/{path}/ratings")
+    Call<ReviewResponse> review(@Path("path") String path, @Body ReviewUp body);
 }

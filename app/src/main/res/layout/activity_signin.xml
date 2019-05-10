@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="20dp"
     android:focusableInTouchMode="true"
-    android:background="#FAFAFA"
+    android:background="#FFFFFF"
     android:clickable="true">
     <RelativeLayout
         android:layout_width="wrap_content"

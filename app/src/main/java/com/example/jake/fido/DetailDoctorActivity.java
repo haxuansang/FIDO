@@ -1,5 +1,6 @@
 package com.example.jake.fido;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
@@ -15,19 +16,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.jake.fido.Instance.APIFido;
 import com.example.jake.fido.Instance.FidoData;
 import com.example.jake.fido.Objects.DoctorObjects;
 import com.example.jake.fido.Objects.ReviewObject;
 import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctor;
+import com.example.jake.fido.Retrofit.ObjectRetrofit.Review;
+import com.example.jake.fido.Retrofit.ReviewObject.ReviewResponse;
+import com.example.jake.fido.Retrofit.ReviewObject.ReviewUp;
 import com.example.jake.fido.Utils.Constants;
 import com.example.jake.fido.Utils.CreateDialogReview;
 import com.example.jake.fido.Utils.ReviewOnClickListener;
 import com.example.jake.fido.View.Adapter.PagerAdapterDetail;
+import com.example.jake.fido.View.Fragment.ReviewDoctorFragment;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class DetailDoctorActivity extends AppCompatActivity implements View.OnClickListener {
     private ViewPager pager;
@@ -36,6 +45,8 @@ public class DetailDoctorActivity extends AppCompatActivity implements View.OnCl
     private TextView  tvDoctor,tvSpecialist,tvReviewLikes,tv_subSpecialist;
     private FloatingActionButton fb_review;
     private RatingBar ratingBar;
+    Doctor doctor;
+    ProgressDialog progressDialog;
 
 
 
@@ -43,8 +54,13 @@ public class DetailDoctorActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_doctor);
+
         addControl();
         getDoctorDataTransition();
+        if(FidoData.getInstance().getLoginRetrofit().getUsableType().equals("App\\Doctor")){
+            fb_review.setVisibility(View.GONE);
+        }
+
     }
 
     private void getDoctorDataTransition() {
@@ -58,7 +74,7 @@ public class DetailDoctorActivity extends AppCompatActivity implements View.OnCl
         fb_review.setOnClickListener(this);
         supportPostponeEnterTransition();
         Bundle extras = getIntent().getExtras();
-        Doctor doctor = extras.getParcelable(Constants.DOCTOR_ITEM);
+        doctor = extras.getParcelable(Constants.DOCTOR_ITEM);
         tvDoctor.setText(doctor.getName());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String imageTransitionName = extras.getString(Constants.DOCTOR_IMAGE_TRANSITION_NAME);
@@ -100,11 +116,12 @@ public class DetailDoctorActivity extends AppCompatActivity implements View.OnCl
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition()==0)
-                    fb_review.setVisibility(View.GONE);
-                else
-                    fb_review.setVisibility(View.VISIBLE);
-
+                if(!FidoData.getInstance().getLoginRetrofit().getUsableType().equals("App\\Doctor")) {
+                    if (tab.getPosition() == 0)
+                        fb_review.setVisibility(View.GONE);
+                    else
+                        fb_review.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -128,8 +145,35 @@ public class DetailDoctorActivity extends AppCompatActivity implements View.OnCl
                 @Override
                 public void onReviewClickListener(ReviewObject reviewObject) {
                     Log.e("sangha", "onReviewClickListener: "+reviewObject.getContentReview() + reviewObject.getContentReview() );
+                    review(reviewObject);
+
                 }
             });
         }
+    }
+
+    private void review(ReviewObject reviewObject) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Đang cập nhật thông tin");
+        progressDialog.setMessage("Vui lòng chờ...");
+        progressDialog.show();
+        ReviewUp reviewUp = new ReviewUp(reviewObject.getNumRating().toString(),reviewObject.getContentReview(),FidoData.getInstance().getLoginRetrofit().getData().getId());
+        APIFido.getInstance().getSoService().review(FidoData.getInstance().getCurrentDoctor().getId().toString(),reviewUp).enqueue(new retrofit2.Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
+                progressDialog.dismiss();
+                if(response.isSuccessful()){
+                    Toast.makeText(DetailDoctorActivity.this, "Đăng bình luận thành công", Toast.LENGTH_SHORT).show();
+                    FidoData.getInstance().getCurrentDoctor().addReview(response.body().getData());
+                    ReviewDoctorFragment.adapterReviewDoctor.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReviewResponse> call, Throwable t) {
+                progressDialog.dismiss();
+            }
+        });
+
     }
 }

@@ -27,7 +27,7 @@ import java.util.List;
 public class ReviewDoctorFragment extends Fragment {
     View view;
     RecyclerView rv_review;
-    AdapterReviewDoctor adapterReviewDoctor;
+    public static AdapterReviewDoctor adapterReviewDoctor;
     RelativeLayout rl_loadingmore;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,21 +69,18 @@ public class ReviewDoctorFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_review_doctor, container, false);
         rv_review = (RecyclerView) view.findViewById(R.id.rv_review);
         rl_loadingmore = (RelativeLayout) view.findViewById(R.id.rl_loading_more);
-        List<ReviewObject> listReview = new ArrayList<>();
-        for (int i = 0; i < 10; i++)
-            listReview.add(new ReviewObject());
         adapterReviewDoctor = new AdapterReviewDoctor(FidoData.getInstance().getCurrentDoctor().getReview(), getContext(), getActivity());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         rv_review.setLayoutManager(gridLayoutManager);
         rv_review.setAdapter(adapterReviewDoctor);
-        rv_review.addOnScrollListener(new InfiniteScrollListener(gridLayoutManager) {
+        /*rv_review.addOnScrollListener(new InfiniteScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 rl_loadingmore.setVisibility(View.GONE);
                 //add data
                 adapterReviewDoctor.notifyDataSetChanged();
             }
-        });
+        });*/
         return view;
     }
 

@@ -235,7 +235,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
     private void loadMoreSuggesstion(String sort,String search, String special_id, String address_id, String page) {
         final RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("name", search).addFormDataPart("special_id", special_id).
+                .addFormDataPart("name", search).addFormDataPart("specialist_id", special_id).
                         addFormDataPart("address_id", address_id).addFormDataPart("filter",sort)
                 .build();
 

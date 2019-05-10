@@ -133,7 +133,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="register_password">Nhập mật khẩu</string>
     <string name="edit_password">Nhập mật khẩu</string>
-    <string name="register_password_verify">Nhập lại mật khẩu mới</string>
+    <string name="register_password_verify">Nhập mật khẩu mới</string>
     <string name="edit_password_verify">Nhập lại mật khẩu mới</string>
     <string name="terms_conditions">Đồng ý với những điều khoản của Bitdimo</string>
     <string name="already_user">Đã có tài khoản,hãy đăng nhập.</string>

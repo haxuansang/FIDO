@@ -2,6 +2,7 @@ package com.example.jake.fido.View.Fragment;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -80,6 +81,7 @@ public class ChungChiFragment extends Fragment {
     @BindView(R.id.rv_chunghci)
     RecyclerView rv_chungchi;
     View mainView;
+    ProgressDialog progressDialog;
     public ChungChiFragment() {
         // Required empty public constructor
     }
@@ -240,6 +242,10 @@ public class ChungChiFragment extends Fragment {
     }
 
     private void upChungChi(ChungChi chungChi,Dialog dialog) {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Đang cập nhật thông tin");
+        progressDialog.setMessage("Vui lòng chờ...");
+        progressDialog.show();
         File file = new File(chungChi.getUri());
         RequestBody requestFile =
                 RequestBody.create(
@@ -262,22 +268,26 @@ public class ChungChiFragment extends Fragment {
             @Override
             public void onResponse(Call<ChungChiRetrofit> call, Response<ChungChiRetrofit> response) {
                 Log.e(TAG, "onResponse: " + response.code() );
+                dialog.dismiss();
                 if (response.isSuccessful()){
                     if (response.body().getStatusCode()==201){
                         Toast.makeText(getContext(), "Tải lên thành công! Chờ xác nhận của admin.", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-
                         list.add(response.body().getData());
                         adapterChungChi.notifyDataSetChanged();
                     }
-                    else  Toast.makeText(getContext(), "Tải lên thất bại", Toast.LENGTH_SHORT).show();
+                    else  {
+                        Toast.makeText(getContext(), "Tải lên thất bại", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else
+                else{
                     Toast.makeText(getContext(), "Có lỗi đường truyền!", Toast.LENGTH_SHORT).show();
-            }
+                }
+                }
+
 
             @Override
             public void onFailure(Call<ChungChiRetrofit> call, Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(getContext(), "Tải lên thất bại", Toast.LENGTH_SHORT).show();
             }
         });

@@ -54,6 +54,7 @@ public class AdapterReviewDoctor extends RecyclerView.Adapter<AdapterReviewDocto
     @Override
     public void onBindViewHolder(@NonNull AdapterReviewDoctor.ViewHolderReview holder, int position) {
             final Review review = listReview.get(position);
+
             readMoreOption.addReadMoreTo(holder.tv_content_review,review.getReview());
             if(review.getPatientAvatar()!=null && !"".equals(review.getPatientAvatar())){
 
@@ -80,6 +81,11 @@ public class AdapterReviewDoctor extends RecyclerView.Adapter<AdapterReviewDocto
             tv_nameuser = itemView.findViewById(R.id.tv_name_user_review);
             ratingBar = itemView.findViewById(R.id.rating_review);
             tv_content_review = itemView.findViewById(R.id.tv_review_content);
+        }
+
+        public void addReview(Review review){
+        listReview.add(review);
+        notifyDataSetChanged();
         }
     }
 }

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     MaterialSearchView searchView;
     SearchAdapter searchAdapter;
     String[] listSuggestions = new String[]{};
-    CircleImageView cv_image_user;
+    public static CircleImageView cv_image_user;
     TextView tv_name;
     TextView tv_type_user;
     static OnSearchClickListener onSearchClickListener;
@@ -216,7 +216,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.chungchi:
                 fragmentClass = ChungChiFragment.class;
                 break;
-
+            case R.id.nav_exit:
+                fragmentClass = DoctorFragment.class;
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                MainActivity.this.startActivity(intent);
+                finish();
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();

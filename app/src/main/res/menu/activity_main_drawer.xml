@@ -31,6 +31,11 @@
             android:title="Chứng chỉ hành nghề"
             android:icon="@drawable/ic_reward"
             />
+        <item
+            android:id="@+id/nav_exit"
+            android:title="Đăng xuất"
+            android:icon="@drawable/ic_exit"
+            />
 
     </group>
 

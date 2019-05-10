@@ -342,7 +342,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
             <Button
-                    android:id="@+id/edt_address"
+                    android:id="@+id/btn_address"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
