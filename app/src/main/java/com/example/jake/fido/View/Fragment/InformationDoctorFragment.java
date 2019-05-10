@@ -155,8 +155,7 @@ public class InformationDoctorFragment extends Fragment implements View.OnClickL
     }
 
     private void openMaps() {
-        Intent intent = new Intent(getActivity(), MapsActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(getActivity(),MapsActivity.class).putExtra("typeofview",0).putExtra("latitude",String.valueOf(doctor.getLatitude())).putExtra("longtitude",String.valueOf(doctor.getLongtatude())).putExtra("nameofplace",doctor.getAddressDetails()));
     }
 
     private void doEmailIntent() {

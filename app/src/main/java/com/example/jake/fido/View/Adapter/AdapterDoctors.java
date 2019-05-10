@@ -70,7 +70,8 @@ public class AdapterDoctors extends RecyclerView.Adapter<AdapterDoctors.ViewHold
                 itemClickListener.onItemClick(position,doctor,holder.doctorImage);
             }
         });
-        holder.tvDescription.setText("Đánh giá " +doctor.getRating() + " sao dựa trên "+ doctor.getLikes()+" lượt bình chọn");
+        String numberRating = String.format ("%.2f", Float.valueOf(doctor.getRating()));
+        holder.tvDescription.setText("Đánh giá " +numberRating + " sao dựa trên "+ doctor.getLikes()+" lượt bình chọn");
 
     }
 

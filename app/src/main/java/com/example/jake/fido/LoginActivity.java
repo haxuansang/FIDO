@@ -44,8 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         getCity();
         ButterKnife.bind(this);
         createView();
-        edt_username.setText("haxuansangdeptraibn@gmail.com");
-        edt_password.setText("anhsang1234");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
             return;

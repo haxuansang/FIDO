@@ -98,7 +98,8 @@ public class DetailDoctorActivity extends AppCompatActivity implements View.OnCl
             ratingBar.setStepSize(0.1f);
             ratingBar.setRating(Float.parseFloat(doctor.getRating()));
         }
-        tvReviewLikes.setText("Đánh giá " +doctor.getRating() + " sao dựa trên "+ doctor.getLikes()+" lượt bình chọn");
+        String numberRating = String.format ("%.2f", Float.valueOf(doctor.getRating()));
+        tvReviewLikes.setText("Đánh giá " + numberRating + " sao dựa trên "+ doctor.getLikes()+" lượt bình chọn");
 
 
     }

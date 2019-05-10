@@ -76,7 +76,7 @@ public interface SOService {
                                          @Part("id_number_place") RequestBody id_number_place,@Part("address_id") RequestBody address_id,@Part("address_details") RequestBody address_details,
                                          @Part("specialist_id") RequestBody specialist_id,@Part("sub_specialist_id") RequestBody sub_specialist_id,
                                          @Part("title") RequestBody chucvu,@Part("office") RequestBody office,@Part("description") RequestBody description,
-                                         @Part("expierence") RequestBody expierence,@Part("_method") RequestBody methodput);
+                                         @Part("experience") RequestBody expierence,@Part("_method") RequestBody methodput);
 
     @Multipart
     @POST("patients/{path}")

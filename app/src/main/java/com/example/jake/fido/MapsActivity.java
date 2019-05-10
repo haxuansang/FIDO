@@ -41,6 +41,7 @@ import com.directions.route.RoutingListener;
 import com.example.jake.fido.Objects.RoadObject;
 import com.example.jake.fido.Utils.MapActions;
 import com.example.jake.fido.View.Adapter.AdapterBottomSheet;
+import com.example.jake.fido.View.Fragment.UpdateFragment;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -84,6 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<Route> mRoute;
     private String currentPlace="";
     public static Location choosenLocation;
+    public static String namePlace;
 
     private static final int[] COLORS = new int[]{R.color.colorPrimaryDark,R.color.colorPrimary,R.color.primary_material_light_1,R.color.accent,R.color.primary_dark_material_light};
 
@@ -394,6 +396,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 else
                 {
                     this.finish();
+
+                    UpdateFragment.btn_addres.setText(currentPlaceName);
+
                     // Toast.makeText(this, ""+choosenLocation.getLatitude()+"\n"+choosenLocation.getLongitude(), Toast.LENGTH_SHORT).show();
                 }
                 break;

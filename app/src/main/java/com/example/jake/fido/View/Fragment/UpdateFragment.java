@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.example.jake.fido.Instance.APIFido;
 import com.example.jake.fido.Instance.FidoData;
 import com.example.jake.fido.MainActivity;
+import com.example.jake.fido.MapsActivity;
 import com.example.jake.fido.MultipleImagesSelector.ImagesSelectorActivity;
 import com.example.jake.fido.MultipleImagesSelector.SelectorSettings;
 import com.example.jake.fido.R;
@@ -107,8 +108,7 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
     Spinner spierr_major;
     @BindView(R.id.spinner_submajor_doctor)
     Spinner spiner_submajor;
-    @BindView(R.id.btn_address)
-    Button btn_addres;
+    public static Button btn_addres;
     @BindView(R.id.edt_chucvu)
     EditText edt_chucvu;
     @BindView(R.id.edt_description)
@@ -189,6 +189,7 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_update, container, false);
         ButterKnife.bind(this,mainView);
+        btn_addres = (Button)mainView.findViewById(R.id.btn_address);
         ci_user.setOnClickListener(this);
         setData();
         btn_submit.setOnClickListener(new View.OnClickListener() {
@@ -266,7 +267,8 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
         RequestBody address_id  = RequestBody.create(
                 okhttp3.MultipartBody.FORM, String.valueOf(spinerr_city.getSelectedItemPosition()+1));
         RequestBody address_detail = RequestBody.create(
-                okhttp3.MultipartBody.FORM,btn_addres.getText().toString());
+                okhttp3.MultipartBody.FORM,String.valueOf(btn_addres.getText().toString()));
+        String a = btn_addres.getText().toString();
         RequestBody major_id = RequestBody.create(
                 okhttp3.MultipartBody.FORM, String.valueOf(spierr_major.getSelectedItemPosition()+2));
         RequestBody sub_major_id = RequestBody.create(
@@ -375,9 +377,19 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
         edt_cmnd.setText(FidoData.getInstance().getLoginRetrofit().getData().getIdNumber());
         edt_cmnd_addres.setText(FidoData.getInstance().getLoginRetrofit().getData().getIdNumberPlace());
         edt_cmnd_date.setText(FidoData.getInstance().getLoginRetrofit().getData().getIdNumberDate());
-        if(FidoData.getInstance().getLoginRetrofit().getData().getAddressDetails()!=null && FidoData.getInstance().getLoginRetrofit().getData().getAddressDetails().equals(""))
+        if(FidoData.getInstance().getLoginRetrofit().getData().getAddressDetails()!=null )
+            if(!FidoData.getInstance().getLoginRetrofit().getData().getAddressDetails().equals(""))
             btn_addres.setText(FidoData.getInstance().getLoginRetrofit().getData().getAddressDetails());
         else btn_addres.setText("Phường, Xã, Quận, Huyện");
+        btn_addres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapsIntent = new Intent(getActivity(), MapsActivity.class);
+                mapsIntent.putExtra("typeofview",1);
+                startActivity(mapsIntent);
+
+        }
+        });
         edt_address_working.setText(FidoData.getInstance().getLoginRetrofit().getData().getOffice());
         edt_chucvu.setText(FidoData.getInstance().getLoginRetrofit().getData().getTitle());
         edt_description.setText(FidoData.getInstance().getLoginRetrofit().getData().getDescription());
