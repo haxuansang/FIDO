@@ -1,5 +1,7 @@
 package com.example.jake.fido.Instance;
 
+import com.example.jake.fido.Retrofit.ChungChiRetrofit;
+import com.example.jake.fido.Retrofit.Data;
 import com.example.jake.fido.Retrofit.LoginRetrofit;
 import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctor;
 
@@ -15,6 +17,38 @@ public class FidoData {
     private String special_id= "";
     private String address_id = "";
     private LoginRetrofit loginRetrofit;
+    private List<ChungChiRetrofit> chungChiRetrofitList= new ArrayList<>();
+    private List<Data> dataList = new ArrayList<>();
+    private String sort="";
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public List<ChungChiRetrofit> getChungChiRetrofitList() {
+        return chungChiRetrofitList;
+    }
+
+    public List<Data> getDataList()
+    {
+        return dataList;
+    }
+
+    public void setChungChiRetrofitList(List<ChungChiRetrofit> chungChiRetrofitList) {
+        this.chungChiRetrofitList = chungChiRetrofitList;
+    }
+
+    public void addChungChi(ChungChiRetrofit chungChiRetrofit){
+        chungChiRetrofitList.add(chungChiRetrofit);
+    }
+
+    public void removeChungChi(ChungChiRetrofit chungChiRetrofit){
+        chungChiRetrofitList.remove(chungChiRetrofit);
+    }
 
     public LoginRetrofit getLoginRetrofit() {
         return loginRetrofit;
@@ -72,6 +106,10 @@ public class FidoData {
 
     private List<Doctor> listDoctors = new ArrayList<>();
     private Doctor currentDoctor;
+
+    public void setDataList(List<Data> dataList) {
+        this.dataList = dataList;
+    }
 
     public static FidoData getInstance() {
         if (fidoData == null) {

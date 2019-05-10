@@ -20,13 +20,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.jake.fido.Instance.APIFido;
+import com.example.jake.fido.Instance.FidoData;
 import com.example.jake.fido.MultipleImagesSelector.ImagesSelectorActivity;
 import com.example.jake.fido.MultipleImagesSelector.SelectorSettings;
 import com.example.jake.fido.R;
+import com.example.jake.fido.Retrofit.LoginRetrofit;
+import com.example.jake.fido.View.Adapter.AdapterSpinner;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +41,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -41,6 +49,13 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 import static android.app.Activity.RESULT_OK;
 import static android.support.constraint.Constraints.TAG;
@@ -60,10 +75,10 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private View mainView;
-    @BindView(R.id.btn_chungchi)
-    Button btn_addpicture;
-    private ArrayList<String> mResults =new ArrayList<>();
-    private static final int REQUEST_CODE_CHOOSE =1997 ;
+    File file;
+
+    @BindView(R.id.ln_update_doctor)
+    LinearLayout ln_update_doctor;
     @BindView(R.id.ci_user_manage)
     CircleImageView ci_user;
     @BindView(R.id.edt_register_Email)
@@ -89,7 +104,7 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.spinner_submajor_doctor)
     Spinner spiner_submajor;
     @BindView(R.id.edt_address)
-    EditText edt_addres;
+    Button edt_addres;
     @BindView(R.id.edt_chucvu)
     EditText edt_chucvu;
     @BindView(R.id.edt_description)
@@ -100,6 +115,11 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
     EditText edt_expierence;
     @BindView(R.id.btn_submit)
     Button btn_submit;
+    @BindView(R.id.radiobtn_gender_Male)
+    RadioButton radioMale;
+    @BindView(R.id.radiobtn_gender_Female)
+    RadioButton radioFemale;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -144,9 +164,209 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_update, container, false);
         ButterKnife.bind(this,mainView);
-        btn_addpicture.setOnClickListener(this);
         ci_user.setOnClickListener(this);
+        setData();
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    updateData();
+            }
+        });
+        if(FidoData.getInstance().getLoginRetrofit().getData().getAvatar().equals(""))
+            Glide.with(getContext()).load(R.drawable.fakedoctor).into(ci_user);
         return mainView;
+    }
+
+    private void updateData() {
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Đang cập nhật thông tin");
+        progressDialog.setMessage("Vui lòng chờ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        MultipartBody.Part body = null;
+        if(this.file!=null) {
+            RequestBody requestFile =
+                    RequestBody.create(
+                            MediaType.parse("image/*"),
+                            file
+                    );
+
+            body = MultipartBody.Part.createFormData("avatar", file.getName(), requestFile);
+        }
+
+
+        RequestBody name =
+                    RequestBody.create(
+                            okhttp3.MultipartBody.FORM, edt_username.getText().toString());
+        RequestBody  gender=
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, radioMale.isChecked()?"Male":"Female");
+        RequestBody phone_number =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, edt_phone.getText().toString());
+        RequestBody id_number = RequestBody.create(
+                okhttp3.MultipartBody.FORM, edt_cmnd.getText().toString());
+        RequestBody id_number_date = RequestBody.create(
+                okhttp3.MultipartBody.FORM, edt_cmnd_date.getText().toString());
+        RequestBody id_number_place = RequestBody.create(
+                okhttp3.MultipartBody.FORM, edt_cmnd_addres.getText().toString());
+        RequestBody address_id  = RequestBody.create(
+                okhttp3.MultipartBody.FORM, String.valueOf(spinerr_city.getSelectedItemPosition()+1));
+        RequestBody address_detail = RequestBody.create(
+                okhttp3.MultipartBody.FORM, edt_addres.getText().toString());
+        RequestBody major_id = RequestBody.create(
+                okhttp3.MultipartBody.FORM, String.valueOf(spierr_major.getSelectedItemPosition()+2));
+        RequestBody sub_major_id = RequestBody.create(
+                okhttp3.MultipartBody.FORM, String.valueOf(spiner_submajor.getSelectedItemPosition()+2));
+        RequestBody chucvu  = RequestBody.create(
+                okhttp3.MultipartBody.FORM, edt_chucvu.getText().toString());
+        RequestBody office = RequestBody.create(
+                okhttp3.MultipartBody.FORM, edt_address_working.getText().toString());
+        RequestBody description = RequestBody.create(
+                okhttp3.MultipartBody.FORM, edt_description.getText().toString());
+        RequestBody expierence =  RequestBody.create(
+                okhttp3.MultipartBody.FORM, edt_expierence.getText().toString());
+        RequestBody method =  RequestBody.create(
+                okhttp3.MultipartBody.FORM, "put");
+        
+        if(FidoData.getInstance().getLoginRetrofit().getUsableType().equals("App\\Doctor")) {
+            if (body != null)
+                APIFido.getInstance().getSoService().updateDoctorFile(FidoData.getInstance().getLoginRetrofit().getData().getId().toString(), body, name, gender, phone_number, id_number,
+                        id_number_date, id_number_place, address_id, address_detail, major_id, sub_major_id, chucvu, office, description, expierence, method).enqueue(new Callback<LoginRetrofit>() {
+                    @Override
+                    public void onResponse(Call<LoginRetrofit> call, Response<LoginRetrofit> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.dismiss();
+                            if(response.body().getStatusCode()==200){
+                                Toast.makeText(getContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
+                                FidoData.getInstance().setLoginRetrofit(response.body());
+
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginRetrofit> call, Throwable t) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getContext(), "Không cập nhật được!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            else {
+                APIFido.getInstance().getSoService().updateDoctor(FidoData.getInstance().getLoginRetrofit().getData().getId().toString(), name, gender, phone_number, id_number,
+                        id_number_date, id_number_place, address_id, address_detail, major_id, sub_major_id, chucvu, office, description, expierence, method).enqueue(new Callback<LoginRetrofit>() {
+                    @Override
+                    public void onResponse(Call<LoginRetrofit> call, Response<LoginRetrofit> response) {
+                        if (response.isSuccessful()) {
+
+                            progressDialog.dismiss();
+                            if(response.body().getStatusCode()==200){
+                                Toast.makeText(getContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
+                                FidoData.getInstance().getLoginRetrofit().setData(response.body().getData());
+
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginRetrofit> call, Throwable t) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getContext(), "lỗi", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+
+        }
+        else {
+            //do for patients
+        }
+
+    }
+
+    public boolean isEmptyString(String a){
+        if (a.equals(""))
+            return true;
+        else return false;
+    }
+
+    private void createSpinnerCity() {
+        String[] listCity =getResources().getStringArray(R.array.listcity);
+        ArrayList<String> listOfCity = new ArrayList<>();
+        for (int i=0;i<listCity.length;i++)
+        {
+            listOfCity.add(listCity[i]);
+        }
+        AdapterSpinner adapterSpinner  = new AdapterSpinner(getContext(),listOfCity);
+        spinerr_city.setAdapter(adapterSpinner);
+        spinerr_city.setSelection(FidoData.getInstance().getLoginRetrofit().getData().getAddressId()-1);
+
+
+    }
+    private void createSpinnerMajor() {
+        String[] listMajor =getResources().getStringArray(R.array.listmajor);
+        ArrayList<String> listOfMajor = new ArrayList<>();
+        for (int i=0;i<listMajor.length;i++)
+        {
+            listOfMajor.add(listMajor[i]);
+        }
+        AdapterSpinner adapterSpinner  = new AdapterSpinner(getContext(),listOfMajor);
+        spierr_major.setAdapter(adapterSpinner);
+        spierr_major.setSelection(Integer.valueOf(FidoData.getInstance().getLoginRetrofit().getData().getSpecialistId())-2);
+
+
+    }
+    private void createSpinnerSubMajor() {
+        String[] listMajor =getResources().getStringArray(R.array.listmajor);
+        ArrayList<String> listOfMajor = new ArrayList<>();
+        for (int i=0;i<listMajor.length;i++)
+        {
+            listOfMajor.add(listMajor[i]);
+        }
+        AdapterSpinner adapterSpinner  = new AdapterSpinner(getContext(),listOfMajor);
+        spiner_submajor.setAdapter(adapterSpinner);
+        if(FidoData.getInstance().getLoginRetrofit().getData().getSubSpecialistId()!=null){
+            spiner_submajor.setSelection(Integer.valueOf(FidoData.getInstance().getLoginRetrofit().getData().getSubSpecialistId())-2);
+        }
+
+    }
+
+
+    private void setData() {
+        if(FidoData.getInstance().getLoginRetrofit().getUsableType().equals("App\\Patient")){
+            ln_update_doctor.setVisibility(View.GONE);
+            createSpinnerCity();
+        }
+        else{
+            createSpinnerCity();
+            createSpinnerMajor();
+            createSpinnerSubMajor();
+        }
+
+        Glide.with(getContext()).load(FidoData.getInstance().getLoginRetrofit().getData().getAvatar()).fitCenter().into(ci_user);
+        edt_email.setText(FidoData.getInstance().getLoginRetrofit().getData().getEmail());
+        edt_username.setText(FidoData.getInstance().getLoginRetrofit().getData().getName());
+        edt_cmnd.setText(FidoData.getInstance().getLoginRetrofit().getData().getIdNumber());
+        edt_cmnd_addres.setText(FidoData.getInstance().getLoginRetrofit().getData().getIdNumberPlace());
+        edt_cmnd_date.setText(FidoData.getInstance().getLoginRetrofit().getData().getIdNumberDate());
+        edt_addres.setText(FidoData.getInstance().getLoginRetrofit().getData().getAddressDetails());
+        edt_address_working.setText(FidoData.getInstance().getLoginRetrofit().getData().getOffice());
+        edt_chucvu.setText(FidoData.getInstance().getLoginRetrofit().getData().getTitle());
+        edt_description.setText(FidoData.getInstance().getLoginRetrofit().getData().getDescription());
+        edt_phone.setText(FidoData.getInstance().getLoginRetrofit().getData().getPhoneNumber());
+        edt_expierence.setText(FidoData.getInstance().getLoginRetrofit().getData().getExperience());
+        if(FidoData.getInstance().getLoginRetrofit().getData().getGender().equals("Male")){
+            radioMale.setChecked(true);
+        }
+        else {
+            radioFemale.setChecked(true);
+        }
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -176,9 +396,6 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_chungchi:
-                getImages();
-                break;
             case R.id.ci_user_manage:
                 loadImageFromLibrary();
         }
@@ -193,37 +410,7 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
 
 
     private void getImages() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED || getActivity().checkSelfPermission(Manifest.permission.WRITE_SETTINGS)
-                    != PackageManager.PERMISSION_GRANTED ) {
 
-                // Should we show an explanation?
-                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    // Explain to the user why we need to read the contacts
-                }
-
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_SETTINGS},
-                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-
-                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
-                // app-defined int constant that should be quite unique
-
-
-            }
-        }
-
-        Intent intent = new Intent(getActivity(), ImagesSelectorActivity.class);
-        // max number of images to be selected
-        intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 5);
-        // min size of image which will be shown; to filter tiny images (mainly icons)
-        intent.putExtra(SelectorSettings.SELECTOR_MIN_IMAGE_SIZE, 100000);
-        // show camera or not
-        intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, true);
-        // pass current selected images as the initial value
-        intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mResults);
-        // start the selector
-        startActivityForResult(intent, REQUEST_CODE_CHOOSE);
 
     }
 
@@ -245,31 +432,7 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            Log.d(TAG, "onActivityResult: aaaaaaa");
-            mResults = new ArrayList<>();
-            mResults = data.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS);
-            // DataGalery.getInstance().putListEncodeImages(mResults);
-            Toast.makeText(getContext(), "" + mResults.size(), Toast.LENGTH_SHORT).show();
-
-          /*  if(adapterAdd==null)
-            {
-                Log.d(TAG, "onActivityResult: aaaaaaa11111");
-                adapterAdd = new AdapterAdd(mResults,getContext(),getActivity());
-                rv_addpicture.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                rv_addpicture.setAdapter(adapterAdd);
-            }
-            else {
-                adapterAdd.updateNewList(mResults);
-                Log.d(TAG, "onActivityResult: aaaaaaa22222");
-
-            }*/
-        } else if (requestCode == 7171) {
-            final ProgressDialog progressDialog = new ProgressDialog(getContext());
-            progressDialog.setTitle("Đăng ảnh");
-            progressDialog.setMessage("Vui lòng chờ...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+         if (requestCode == 7171 && resultCode == RESULT_OK) {
 
             final Uri uri = data.getData();
             if (uri != null) {
@@ -277,6 +440,8 @@ public class UpdateFragment extends Fragment implements View.OnClickListener {
 
                     final Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
                     ci_user.setImageBitmap(bitmap);
+                    this.file = new File(uri.getPath());
+
 
                 } catch (IOException e) {
                     e.printStackTrace();

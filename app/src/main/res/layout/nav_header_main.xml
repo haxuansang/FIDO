@@ -17,12 +17,13 @@
         android:id="@+id/profile_image"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:src="@drawable/user_fake"
+        android:src="@drawable/doctor_fake"
         app:civ_border_width="1dp"
         app:civ_border_color="#FFFFFF"
         android:layout_marginTop="20dp"/>
 
     <TextView
+        android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -31,10 +32,10 @@
         android:layout_marginLeft="10dp"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_type_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Người dùng Fido"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="10dp"/>
 
 </LinearLayout>

@@ -71,7 +71,7 @@
                 android:background="@android:color/transparent"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:hint="Email"
+                android:hint="Tên người dùng"
                 android:inputType="text"
                 android:padding="10dp"
                 android:singleLine="true"
@@ -87,6 +87,7 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:enabled="false"
                 android:id="@+id/edt_register_Email"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -94,7 +95,7 @@
                 android:background="@android:color/transparent"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:hint="Tên người dùng"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
                 android:singleLine="true"
@@ -229,7 +230,6 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:hint="@string/phone"
-                android:inputType="textPassword"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
@@ -336,6 +336,11 @@
                     >
                 </Spinner>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ln_update_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <Button
                     android:id="@+id/edt_address"
                     android:layout_width="fill_parent"
@@ -424,7 +429,6 @@
                     android:textColor="@color/black"
                     android:textColorHint="@color/colorPrimaryDark"
                     android:textSize="16sp"
-                    android:enabled="false"
                     android:clickable="true"/>
 
 
@@ -447,7 +451,6 @@
                     android:textColor="@color/black"
                     android:textColorHint="@color/colorPrimaryDark"
                     android:textSize="16sp"
-                    android:enabled="false"
                     android:clickable="true"/>
 
 
@@ -494,15 +497,8 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_chungchi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Chọn ảnh xác nhận chứng chỉ"
-                android:textColor="@color/colorPrimaryDark"
-                android:background="@drawable/shape_normal"
-                />
-        </LinearLayout>
+
+        </LinearLayout></LinearLayout>
 
     </LinearLayout>
 

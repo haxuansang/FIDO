@@ -9,25 +9,25 @@ public class LoginRetrofit {
 
     @SerializedName("access_token")
     @Expose
-    private String accessToken;
+    public String accessToken;
     @SerializedName("token_type")
     @Expose
-    private String tokenType;
+    public  String tokenType;
     @SerializedName("expires_in")
     @Expose
-    private Integer expiresIn;
+    public  Integer expiresIn;
     @SerializedName("data")
     @Expose
-    private Data data;
+    public  Data data;
     @SerializedName("status_code")
     @Expose
-    private String statusCode;
+    public  Integer statusCode;
     @SerializedName("usable_type")
     @Expose
-    private String usableType;
+    public  String usableType;
     @SerializedName("usable_id")
     @Expose
-    private Integer usableId;
+    public  Integer usableId;
 
     public String getAccessToken() {
         return accessToken;
@@ -61,13 +61,11 @@ public class LoginRetrofit {
         this.data = data;
     }
 
-    public String getStatusCode() {
+    public Integer getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
-    }
+
 
     public String getUsableType() {
         return usableType;

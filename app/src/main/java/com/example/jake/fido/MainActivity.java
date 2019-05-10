@@ -22,13 +22,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Filter;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.jake.fido.Instance.APIFido;
 import com.example.jake.fido.Instance.FidoData;
+import com.example.jake.fido.Retrofit.ChungChiRetrofit;
+import com.example.jake.fido.Retrofit.Data;
 import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctor;
 import com.example.jake.fido.Retrofit.ObjectRetrofit.Doctors;
 import com.example.jake.fido.Utils.OnSearchClickListener;
+import com.example.jake.fido.View.Fragment.ChungChiFragment;
 import com.example.jake.fido.View.Fragment.DoctorFragment;
 import com.example.jake.fido.View.Fragment.MapsFragment;
 import com.example.jake.fido.View.Fragment.MessagesFragment;
@@ -40,6 +45,7 @@ import com.miguelcatalan.materialsearchview.SearchAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -54,6 +60,9 @@ public class MainActivity extends AppCompatActivity
     MaterialSearchView searchView;
     SearchAdapter searchAdapter;
     String[] listSuggestions = new String[]{};
+    CircleImageView cv_image_user;
+    TextView tv_name;
+    TextView tv_type_user;
     static OnSearchClickListener onSearchClickListener;
 
     @Override
@@ -61,6 +70,22 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupView();
+        getDataUser();
+
+    }
+
+    private void getDataUser() {
+        APIFido.getInstance().getSoService().getChungChi(FidoData.getInstance().getLoginRetrofit().getData().getId().toString()).enqueue(new Callback<List<Data>>() {
+            @Override
+            public void onResponse(Call<List<Data>> call, Response<List<Data>> response) {
+                FidoData.getInstance().setDataList(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Data>> call, Throwable t) {
+
+            }
+        });
 
     }
 
@@ -86,6 +111,27 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if(FidoData.getInstance().getLoginRetrofit().getUsableType().equals("App\\Patient")){
+            navigationView.inflateMenu(R.menu.drawer_patients);
+        }
+        else {
+            navigationView.inflateMenu(R.menu.activity_main_drawer);
+        }
+        View header = navigationView.getHeaderView(0);
+        cv_image_user = (CircleImageView)header.findViewById(R.id.profile_image);
+        tv_name = (TextView)header.findViewById(R.id.tv_name);
+        tv_type_user = (TextView)header.findViewById(R.id.tv_type_user);
+        if(FidoData.getInstance().getLoginRetrofit().getData().getAvatar()!=null && !FidoData.getInstance().getLoginRetrofit().getData().getAvatar().equals("")){
+            Glide.with(getBaseContext()).load(FidoData.getInstance().getLoginRetrofit().getData().getAvatar()).into(cv_image_user);
+
+        }
+        if(FidoData.getInstance().getLoginRetrofit().getData().getName()!=null){
+            tv_name.setText(FidoData.getInstance().getLoginRetrofit().getData().getName());
+        }
+        if(FidoData.getInstance().getLoginRetrofit().getUsableType().equals("App\\Doctor")){
+            tv_type_user.setText("Bác sĩ FIDO");
+        }
+
         navigationView.setCheckedItem(R.id.nav_doctors);
         navigationView.setNavigationItemSelectedListener(this);
         searchView.setOnQueryTextListener(this);
@@ -97,6 +143,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onSearchViewClosed() {
+                FidoData.getInstance().setSearch("");
                 FidoData.getInstance().setTypeShow(1);
                 onSearchClickListener.onCloseSearch();
             }
@@ -165,6 +212,10 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_update:
                 fragmentClass = UpdateFragment.class;
+                break;
+            case R.id.chungchi:
+                fragmentClass = ChungChiFragment.class;
+                break;
 
         }
         try {

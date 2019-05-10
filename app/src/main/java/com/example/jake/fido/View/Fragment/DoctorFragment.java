@@ -131,7 +131,8 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
                     rl_loadingmore.setVisibility(View.VISIBLE);
                     loadMoreData();
                 } else if (FidoData.getInstance().isLoadMore()) {
-                    loadMoreSuggesstion("",FidoData.getInstance().getSearch(), FidoData.getInstance().getSpecial_id(), FidoData.getInstance().getAddress_id(), String.valueOf(FidoData.getInstance().getCurrentPage() + 1));
+                    rl_loadingmore.setVisibility(View.VISIBLE);
+                    loadMoreSuggesstion(FidoData.getInstance().getSort(),FidoData.getInstance().getSearch(), FidoData.getInstance().getSpecial_id(), FidoData.getInstance().getAddress_id(), String.valueOf(FidoData.getInstance().getCurrentPage() + 1));
                 }
             }
         });
@@ -153,6 +154,10 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
     }
 
     private void showSearchDialog() {
+        FidoData.getInstance().setAddress_id("");
+        FidoData.getInstance().setSpecial_id("");
+        FidoData.getInstance().setSort("");
+
         Spinner spinnerMajor, spinnerAddress, spinnerSort;
         Button btnSearch;
         Dialog dialogSearch = new Dialog(getContext());
@@ -174,8 +179,15 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadMoreSuggesstion(String.valueOf(spinnerSort.getSelectedItemPosition()),FidoData.getInstance().getSearch(),String.valueOf(spinnerMajor.getSelectedItemPosition()),String.valueOf(spinnerAddress.getSelectedItemPosition()),"1");
+                if(spinnerMajor.getSelectedItemPosition() !=0 )
+                      FidoData.getInstance().setSpecial_id(String.valueOf(spinnerMajor.getSelectedItemPosition()+1));
+                if (spinnerAddress.getSelectedItemPosition()!=0)
+                    FidoData.getInstance().setAddress_id(String.valueOf(spinnerAddress.getSelectedItemPosition()));
+                if(spinnerSort.getSelectedItemPosition()!=0)
+                    FidoData.getInstance().setSort( String.valueOf(spinnerSort.getSelectedItem()));
                 listFakeDoctors.clear();
+                loadMoreSuggesstion(FidoData.getInstance().getSort(),FidoData.getInstance().getSearch(),FidoData.getInstance().getSpecial_id(),FidoData.getInstance().getAddress_id(),"1");
+                FidoData.getInstance().setSearch("");
                 dialogSearch.dismiss();
             }
         });
@@ -190,6 +202,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         switch (type) {
             case 0:
                 listMajor = getResources().getStringArray(R.array.listsort);
+
                 for (int i = 0; i < listMajor.length; i++) {
                     list.add(listMajor[i]);
                 }
@@ -199,6 +212,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
 
             case 1:
                 listMajor = getResources().getStringArray(R.array.listmajor);
+                list.add("Tất cả");
                 for (int i = 0; i < listMajor.length; i++) {
                     list.add(listMajor[i]);
                 }
@@ -207,6 +221,7 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
                 break;
             case 2:
                 listMajor = getResources().getStringArray(R.array.listcity);
+                list.add("Tất cả");
                 for (int i = 0; i < listMajor.length; i++) {
                     list.add(listMajor[i]);
                 }
@@ -227,16 +242,18 @@ public class DoctorFragment extends Fragment implements TransitionItemClickListe
         APIFido.getInstance().getSoService().searchDoctors(requestBody, page).enqueue(new Callback<Doctors>() {
             @Override
             public void onResponse(Call<Doctors> call, Response<Doctors> response) {
-                listFakeDoctors.addAll(response.body().getData());
-                adapterDoctors.notifyDataSetChanged();
-                FidoData.getInstance().setCurrentPage(response.body().getMeta().getCurrentPage());
-                FidoData.getInstance().setLastPage(response.body().getMeta().getLastPage());
-
+                if(response.isSuccessful() && response.body().getData()!=null) {
+                    rl_loadingmore.setVisibility(View.GONE);
+                    listFakeDoctors.addAll(response.body().getData());
+                    adapterDoctors.notifyDataSetChanged();
+                    FidoData.getInstance().setCurrentPage(response.body().getMeta().getCurrentPage());
+                    FidoData.getInstance().setLastPage(response.body().getMeta().getLastPage());
+                }
             }
 
             @Override
             public void onFailure(Call<Doctors> call, Throwable t) {
-
+                rl_loadingmore.setVisibility(View.GONE);
             }
         });
 

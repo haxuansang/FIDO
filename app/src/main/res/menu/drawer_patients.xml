@@ -25,18 +25,5 @@
             android:id="@+id/nav_update"
             android:icon="@drawable/ic_user"
             android:title="Cập nhật thông tin cá nhân" />
-
-        <item
-            android:id="@+id/chungchi"
-            android:title="Chứng chỉ hành nghề"
-            android:icon="@drawable/ic_reward"
-            />
-
     </group>
-
-
-
 </menu>
-
-
-

@@ -97,7 +97,7 @@ public class Data {
     private Integer likes;
     @SerializedName("office")
     @Expose
-    private Object office;
+    private String office;
 
     public Integer getId() {
         return id;
@@ -105,6 +105,10 @@ public class Data {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setOffice(String office) {
+        this.office = office;
     }
 
     public Object getStatus() {
@@ -339,12 +343,7 @@ public class Data {
         this.likes = likes;
     }
 
-    public Object getOffice() {
+    public String getOffice() {
         return office;
     }
-
-    public void setOffice(Object office) {
-        this.office = office;
-    }
-
 }

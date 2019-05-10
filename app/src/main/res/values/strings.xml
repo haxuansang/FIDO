@@ -12,12 +12,7 @@
     <string name="login_forgorpassword">Quên mật khẩu?</string>
     <string name="login_save">Lưu mật khẩu</string>
     <string name="sign_up">CHƯA PHẢI LÀ THÀNH VIÊN? ĐĂNG KÝ NGAY</string>
-    <string-array name="listcity">
-        <item> Đà Nẵng </item>
-        <item>Thành Phố Hồ Chí Minh </item>
-        <item>Hà Nội</item>
 
-    </string-array>
     <string-array name="listmajor">
         <item>Bệnh lý học‎</item>
         <item>Bệnh truyền nhiễm‎</item>
@@ -61,8 +56,76 @@
 
     </string-array>
 
+    <string-array name="listcity">
+        <item>An Giang</item>
+        <item>Bình Dương</item>
+        <item>Bình Định</item>
+        <item>Bắc Giang</item>
+        <item>Bắc Kạn</item>
+        <item>Bạc Liêu</item>
+        <item>Bắc Ninh</item>
+        <item>Bình Phước</item>
+        <item>Bà Rịa - Vũng Tàu</item>
+        <item>Bình Thuận</item>
+        <item>Bến Tre</item>
+        <item>Cao Bằng</item>
+        <item>Cà Mau</item>
+        <item>TP Cần Thơ</item>
+        <item>Điện Biên</item>
+        <item>Đắk Lắk</item>
+        <item>TP Đà Nẵng</item>
+        <item>Đồng Nai</item>
+        <item>Đắk Nông</item>
+        <item>Đồng Tháp</item>
+        <item>Gia Lai</item>
+        <item>Hòa Bình</item>
+        <item>TP Hồ Chí Minh</item>
+        <item>Hải Dương</item>
+        <item>Hậu Giang</item>
+        <item>Hà Giang</item>
+        <item>Hà Nội</item>
+        <item>Hà Nam</item>
+        <item>TP Hải Phòng</item>
+        <item>Hà Tĩnh</item>
+        <item>Hưng Yên</item>
+        <item>Kiên Giang</item>
+        <item>Khánh Hòa</item>
+        <item>Kon Tum</item>
+        <item>Long An</item>
+        <item>Lào Cai</item>
+        <item>Lai Châu</item>
+        <item>Lâm Đồng</item>
+        <item>Lạng Sơn</item>
+        <item>Nghệ An</item>
+        <item>Ninh Bình</item>
+        <item>Nam Định</item>
+        <item>Ninh Thuận</item>
+        <item>Phú Thọ</item>
+        <item>Phú Yên</item>
+        <item>Quảng Bình</item>
+        <item>Quảng Ninh</item>
+        <item>Quảng Ninh</item>
+        <item>Quảng Nam</item>
+        <item>Quảng Ngãi</item>
+        <item>Quảng Trị</item>
+        <item>Sơn La</item>
+        <item>Sóc Trăng</item>
+        <item>Thái Bình</item>
+        <item>Tiền Giang</item>
+        <item>Thanh Hóa</item>
+        <item>Thái Nguyên</item>
+        <item>Tây Ninh</item>
+        <item>Tuyên Quang</item>
+        <item>Thừa Thiên - Huế</item>
+        <item>Trà Vinh</item>
+        <item>Vĩnh Long</item>
+        <item>Vĩnh Phúc</item>
+        <item>Yên Bái</item>
+    </string-array>
+
     <string-array name="listsort">
-        <item>Đánh giá cao nhất</item>
+        <item>Tất cả</item>
+        <item>rating</item>
         <item>Gần đây nhất</item>
     </string-array>
 
@@ -108,7 +171,7 @@
     <string name="cmnd">Số CMND</string>
     <string name="phone">Số Điện Thoại</string>
     <string name="address">Phường, Xã, Quận, Huyện</string>
-    <string name="cmnd_date">dd/mm/yyyy</string>
+    <string name="cmnd_date">yyyy-mm-dd</string>
     <string name="cmnd_address">Nơi Cấp</string>
     <string name="adress_work">Nơi làm việc</string>
     <string name="description">Mô tả</string>

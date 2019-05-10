@@ -365,6 +365,7 @@ public class Doctor  implements Parcelable {
         parcel.writeString(addressName);
         parcel.writeString(avatar);
         parcel.writeString(rating);
+        parcel.writeString(subSpecialistName);
     }
     public static final Parcelable.Creator<Doctor> CREATOR
             = new Parcelable.Creator<Doctor>() {
@@ -387,5 +388,6 @@ public class Doctor  implements Parcelable {
         addressName = in.readString();
         avatar = in.readString();
         rating = in.readString();
+        subSpecialistName = in.readString();
     }
 }

@@ -79,7 +79,7 @@ public class ReviewDoctorFragment extends Fragment {
         rv_review.addOnScrollListener(new InfiniteScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                rl_loadingmore.setVisibility(View.VISIBLE);
+                rl_loadingmore.setVisibility(View.GONE);
                 //add data
                 adapterReviewDoctor.notifyDataSetChanged();
             }

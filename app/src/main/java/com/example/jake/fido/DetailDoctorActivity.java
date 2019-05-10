@@ -33,7 +33,7 @@ public class DetailDoctorActivity extends AppCompatActivity implements View.OnCl
     private ViewPager pager;
     private TabLayout tabLayout;
     private CircleImageView imvDoctor;
-    private TextView  tvDoctor,tvSpecialist,tvReviewLikes;
+    private TextView  tvDoctor,tvSpecialist,tvReviewLikes,tv_subSpecialist;
     private FloatingActionButton fb_review;
     private RatingBar ratingBar;
 
@@ -53,6 +53,7 @@ public class DetailDoctorActivity extends AppCompatActivity implements View.OnCl
         fb_review = (FloatingActionButton)findViewById(R.id.fb_review);
         tvSpecialist = (TextView)findViewById(R.id.tv_major_doctor);
         tvReviewLikes = (TextView) findViewById(R.id.tv_evaluate_doctor);
+        tv_subSpecialist = (TextView) findViewById(R.id.tv_submajor_doctor);
         ratingBar = (RatingBar) findViewById(R.id.rating_doctor);
         fb_review.setOnClickListener(this);
         supportPostponeEnterTransition();
@@ -75,11 +76,14 @@ public class DetailDoctorActivity extends AppCompatActivity implements View.OnCl
             }
         });
         tvSpecialist.setText("Chuyên khoa: "+doctor.getSpecialistName());
+        tv_subSpecialist.setText("Chuyên khoa phụ: "+doctor.getSubSpecialistName());
+
         if(doctor.getRating()!=null) {
             ratingBar.setStepSize(0.1f);
             ratingBar.setRating(Float.parseFloat(doctor.getRating()));
         }
         tvReviewLikes.setText("Đánh giá " +doctor.getRating() + " sao dựa trên "+ doctor.getLikes()+" lượt bình chọn");
+
 
     }
 
